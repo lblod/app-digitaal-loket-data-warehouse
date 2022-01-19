@@ -25,7 +25,6 @@ defmodule Acl.UserGroups.Config do
                         "http://lblod.data.gift/vocabularies/employee/EmployeeDataset",
                         "http://lblod.data.gift/vocabularies/employee/EmployeePeriodSlice",
                         "http://lblod.data.gift/vocabularies/employee/EmployeeObservation",
-                        "http://mu.semte.ch/vocabularies/ext/GeslachtCode",
 
                         # // LEIDINGGENDEN
                         "http://schema.org/ContactPoint",
