@@ -16,6 +16,7 @@ defmodule Acl.UserGroups.Config do
                     graph: "http://mu.semte.ch/graphs/public",
                     constraint: %ResourceConstraint{
                       resource_types: [
+
                         # // PERSONEEL
                         "http://lblod.data.gift/vocabularies/employee/EmployeeTimePeriod",
                         "http://lblod.data.gift/vocabularies/employee/UnitMeasure",
@@ -26,7 +27,7 @@ defmodule Acl.UserGroups.Config do
                         "http://lblod.data.gift/vocabularies/employee/EmployeePeriodSlice",
                         "http://lblod.data.gift/vocabularies/employee/EmployeeObservation",
 
-                        # // LEIDINGGENDEN
+                        # // LEIDINGGEVENDEN
                         "http://schema.org/ContactPoint",
                         "http://www.w3.org/ns/locn#Address",
                         "http://data.lblod.info/vocabularies/leidinggevenden/Bestuursfunctie",
@@ -57,8 +58,8 @@ defmodule Acl.UserGroups.Config do
                         "http://www.w3.org/ns/person#Person",
                         "http://www.w3.org/ns/prov#Location",
                         "http://mu.semte.ch/vocabularies/ext/GeslachtCode"
-                      ]
-                    } } ] },
+
+                      ] } } ] },
       # // CLEANUP
       #
       %GraphCleanup{
