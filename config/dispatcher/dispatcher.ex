@@ -20,10 +20,6 @@ defmodule Dispatcher do
     forward conn, [], "http://database:8890/sparql"
   end
 
-  match "/*_path", @html do
-    send_resp( conn, 308, "<!DOCTYPE html><html><head><meta http-equiv=\"refresh\" content=\"0; url='https://www.w3docs.com'\" /></head><body><p>Please follow <a href=\"https://www.w3docs.com\">this link</a>.</p></body></html>" )
-  end
-
   match "/*_", %{ last_call: true } do
     send_resp( conn, 404, "Route not found.  See config/dispatcher.ex" )
   end
