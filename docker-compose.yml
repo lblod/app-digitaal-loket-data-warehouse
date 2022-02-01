@@ -33,6 +33,6 @@ services:
   migrations:
     image: semtech/mu-migrations-service:0.7.0
     links:
-      - triplestore:database
+      - database:database
     volumes:
       - ./config/migrations:/data/migrations
