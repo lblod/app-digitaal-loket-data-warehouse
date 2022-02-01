@@ -9,9 +9,9 @@ services:
     restart: "no"
   dispatcher:
     restart: "no"
+#  database:
+#    restart: "no"
   database:
-    restart: "no"
-  triplestore:
     ports:
       - "8890:8890"
     restart: "no"
