@@ -39,3 +39,25 @@ Start the system:
 ```shell
 docker-compose up
 ```
+
+### Sync data from digitaal loket (Mandaten en Leidingevenden)
+
+Set up a sync to load Mandaten en Leidingevenden from a Digitaal Loket instance to Digitaal Loket Data Warehouse with the [delta-consumer](https://github.com/lblod/delta-consumer).
+
+An example `docker-compose.override.yml` configuration. See [delta-consumer](https://github.com/lblod/delta-consumer) for more info.
+
+```
+version: '3.7'
+
+services:
+  mandatendatabank-consumer:
+    environment:
+      DCR_SYNC_BASE_URL: 'https://my-digital-loket-instance.net'
+      DCR_DISABLE_INITIAL_SYNC: 'false'
+      BATCH_SIZE: 1000
+  leidinggevenden-consumer:
+    environment:
+      DCR_SYNC_BASE_URL: 'https://my-digital-loket-instance.net'
+      DCR_DISABLE_INITIAL_SYNC: 'false'
+      BATCH_SIZE: 1000
+```
