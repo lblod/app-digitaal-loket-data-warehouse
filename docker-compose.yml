@@ -73,4 +73,24 @@ services:
       - ./data/files/consumer-files/leidinggevenden:/consumer-files/
     restart: always
     labels:
-      - "logging=true"  
+      - "logging=true"
+  persons-sensitive-consumer:
+    image: lblod/delta-consumer:0.0.6
+    environment:
+      DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
+      DCR_SERVICE_NAME: 'persons-sensitive-consumer'
+      DCR_SYNC_FILES_PATH: '/sync/persons-sensitive/files'
+      DCR_SYNC_DATASET_SUBJECT: "http://data.lblod.info/datasets/delta-producer/dumps/PersonsSensitiveCacheGraphDump"
+      DCR_INITIAL_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/initialSync/persons-sensitive"
+      DCR_DELTA_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/deltaSync/persons-sensitive"
+      DCR_JOB_CREATOR_URI: "http://data.lblod.info/services/id/persons-sensitive-consumer"
+      DCR_DISABLE_INITIAL_SYNC: 'true'
+      DCR_BYPASS_MU_AUTH_FOR_EXPENSIVE_QUERIES: 'true'
+      DCR_KEEP_DELTA_FILES: 'true'
+      DCR_DELTA_FILE_FOLDER: '/consumer-files'
+      DCR_SYNC_LOGIN_ENDPOINT: 'https://loket.lblod.info/sync/persons-sensitive/login' # Note: don't forget DCR_SECRET_KEY in docker-compose.override.yml
+    volumes:
+      - ./data/files/consumer-files/persons-sensitive:/consumer-files/
+    restart: always
+    labels:
+      - "logging=true"
