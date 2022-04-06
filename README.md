@@ -60,4 +60,11 @@ services:
       DCR_SYNC_BASE_URL: 'https://my-digital-loket-instance.net'
       DCR_DISABLE_INITIAL_SYNC: 'false'
       BATCH_SIZE: 1000
+  persons-sensitive-consumer:
+    environment:
+      DCR_SECRET_KEY: 'shared key with producer stack'
+      DCR_SYNC_BASE_URL: 'https://my-digital-loket-instance.net'
+      DCR_SYNC_LOGIN_ENDPOINT: 'http://my-digital-loket-instance.net/sync/persons-sensitive/login'
+      DCR_DISABLE_INITIAL_SYNC: 'false'
+      DCR_DISABLE_DELTA_INGEST: 'false'
 ```
