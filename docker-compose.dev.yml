@@ -13,7 +13,15 @@ services:
 #    restart: "no"
   database:
     ports:
-      - "8890:8890"
+      - "8892:8890"
     restart: "no"
   migrations:
+    restart: "no"
+  mandatendatabank-consumer:
+    restart: "no"
+  leidinggevenden-consumer:
+    restart: "no"
+  persons-sensitive-consumer:
+    restart: "no"
+  subsidies-consumer:
     restart: "no"
