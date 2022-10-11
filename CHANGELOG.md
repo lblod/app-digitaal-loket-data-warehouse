@@ -1,4 +1,6 @@
 # Changelog
+## 1.3.0 (2022-10-11)
+- added verkiezingsresultaten Bilzen
 ## 1.2.0 (2022-04-15)
 - added migration containing provincies
 ## 1.1.0 (2022-04-13)
