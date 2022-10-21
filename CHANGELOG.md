@@ -1,4 +1,6 @@
 # Changelog
+## 1.6.0 (2022-10-21)
+- extra migration
 ## 1.5.0 (2022-10-21)
 - fix resultaten
 ## 1.4.0 (2022-10-21)
