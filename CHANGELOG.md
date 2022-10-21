@@ -1,4 +1,6 @@
 # Changelog
+## 1.5.0 (2022-10-21)
+- fix resultaten
 ## 1.4.0 (2022-10-21)
 - fix kieslijsten
 ## 1.3.0 (2022-10-11)
