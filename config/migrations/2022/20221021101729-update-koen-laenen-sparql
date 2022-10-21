@@ -1,0 +1,18 @@
+PREFIX kandidatenlijsten: <http://data.lblod.info/id/kandidatenlijsten/>
+PREFIX personen:          <http://data.lblod.info/id/personen/>
+PREFIX mandaat:           <http://data.vlaanderen.be/ns/mandaat#>
+
+INSERT DATA {
+  GRAPH <http://mu.semte.ch/graphs/public> {
+
+<http://data.lblod.info/id/verkiezingsresultaten/f3eea005-2388-4a9c-92ac-7429ef2a1bdb>
+  <http://data.vlaanderen.be/ns/mandaat#isResultaatVan>	personen:5BADF17B98360D0009000225 .
+<http://data.lblod.info/id/kandidatenlijsten/589972a7-795c-4937-a566-c6e7dba7e219>
+  <http://data.vlaanderen.be/ns/mandaat#heeftKandidaat>	personen:5BADF17B98360D0009000225 .
+<http://data.lblod.info/id/verkiezingsresultaten/73c3b881-044a-4408-81a1-73993fee77fe>
+  <http://data.vlaanderen.be/ns/mandaat#isResultaatVan>	personen:5BADF17B98360D0009000225 .
+<http://data.lblod.info/id/kandidatenlijsten/d807b850-13e6-47f5-bf7a-7e4e44dcd4e6>
+  <http://data.vlaanderen.be/ns/mandaat#heeftKandidaat> personen:5BADF17B98360D0009000225 .
+
+  }
+}
