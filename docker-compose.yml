@@ -37,7 +37,7 @@ services:
     volumes:
       - ./config/migrations:/data/migrations
   mandatendatabank-consumer:
-      image: lblod/delta-consumer:0.0.5
+      image: lblod/delta-consumer:0.0.9
       environment:
         DCR_SYNC_BASE_URL: 'https://loket.lblod.info/'
         DCR_SERVICE_NAME: 'mandatendatabank-consumer'
@@ -56,7 +56,7 @@ services:
       labels:
         - "logging=true"
   leidinggevenden-consumer:
-    image: lblod/delta-consumer:0.0.5
+    image: lblod/delta-consumer:0.0.9
     environment:
       DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
       DCR_SERVICE_NAME: 'leidinggevenden-consumer'
@@ -75,7 +75,7 @@ services:
     labels:
       - "logging=true"
   persons-sensitive-consumer:
-    image: lblod/delta-consumer:0.0.6
+    image: lblod/delta-consumer:0.0.9
     environment:
       DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
       DCR_SERVICE_NAME: 'persons-sensitive-consumer'
@@ -95,7 +95,7 @@ services:
     labels:
       - "logging=true"
   subsidies-consumer:
-    image: lblod/delta-consumer:0.0.6
+    image: lblod/delta-consumer:0.0.9
     environment:
       DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
       DCR_SERVICE_NAME: 'subsidies-consumer'
