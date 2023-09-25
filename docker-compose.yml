@@ -6,7 +6,7 @@ services:
     environment:
       DEFAULT_SPARQL_ENDPOINT: "/sparql"
   identifier:
-    image: semtech/mu-identifier:1.9.1
+    image: semtech/mu-identifier:1.10.1
     environment:
       SESSION_COOKIE_SECURE: "on"
       DEFAULT_ACCESS_CONTROL_ALLOW_ORIGIN_HEADER: "*"
