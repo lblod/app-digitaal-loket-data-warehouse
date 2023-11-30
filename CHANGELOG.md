@@ -1,4 +1,7 @@
 # Changelog
+## 1.7.0 (2023-11-30)
+- bump consumers
+- bump identifier
 ## 1.6.0 (2022-10-21)
 - extra migration
 ## 1.5.0 (2022-10-21)
