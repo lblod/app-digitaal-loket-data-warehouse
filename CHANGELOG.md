@@ -1,4 +1,6 @@
 # Changelog
+## 1.7.1 (2023-08-20)
+- Add missing `restart`, `logging` and `labels` attributes. (DL-6136)
 ## 1.7.0 (2023-11-30)
 - bump consumers
 - bump identifier
