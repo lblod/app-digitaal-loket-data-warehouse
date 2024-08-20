@@ -1,10 +1,18 @@
-version: '3.7'
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
 
 services:
   yasgui:
     image: erikap/yasgui
     environment:
       DEFAULT_SPARQL_ENDPOINT: "/sparql"
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
   identifier:
     image: semtech/mu-identifier:1.10.1
     environment:
@@ -12,10 +20,18 @@ services:
       DEFAULT_ACCESS_CONTROL_ALLOW_ORIGIN_HEADER: "*"
     links:
       - dispatcher:dispatcher
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
   dispatcher:
     image: semtech/mu-dispatcher:2.0.0
     volumes:
       - ./config/dispatcher:/config
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
 #  database:
 #    image: semtech/mu-authorization:0.6.0-beta.7
 #    environment:
@@ -30,12 +46,20 @@ services:
     volumes:
       - ./data/db:/data
       - ./config/virtuoso/virtuoso.ini:/data/virtuoso.ini
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
   migrations:
     image: semtech/mu-migrations-service:0.7.0
     links:
       - database:database
     volumes:
       - ./config/migrations:/data/migrations
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
   mandatendatabank-consumer:
       image: lblod/delta-consumer:0.0.24
       environment:
@@ -53,6 +77,7 @@ services:
       volumes:
         - ./data/files/consumer-files/mandaten:/consumer-files/
       restart: always
+      logging: *default-logging
       labels:
         - "logging=true"
   leidinggevenden-consumer:
@@ -72,6 +97,7 @@ services:
     volumes:
       - ./data/files/consumer-files/leidinggevenden:/consumer-files/
     restart: always
+    logging: *default-logging
     labels:
       - "logging=true"
   persons-sensitive-consumer:
@@ -92,6 +118,7 @@ services:
     volumes:
       - ./data/files/consumer-files/persons-sensitive:/consumer-files/
     restart: always
+    logging: *default-logging
     labels:
       - "logging=true"
   subsidies-consumer:
@@ -112,5 +139,6 @@ services:
     volumes:
       - ./data/files/consumer-files/subsidies:/consumer-files/
     restart: always
+    logging: *default-logging
     labels:
       - "logging=true"
