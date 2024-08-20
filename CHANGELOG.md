@@ -1,4 +1,10 @@
 # Changelog
+## 1.7.2 (2023-08-20)
+- Restore `version` attribute for `docker-compose.yml`
+  - Removing it seems to break the config on v1 of `docker-compose`.
+### Deploy Notes
+#### Docker Commands
+- `drc up -d yasgui identifier dispatcher database migrations mandatendatabank-consumer leidinggevenden-consumer persons-sensitive-consumer subsidies-consumer web`
 ## 1.7.1 (2023-08-20)
 - Add missing `restart`, `logging` and `labels` attributes. (DL-6136)
 ## 1.7.0 (2023-11-30)
