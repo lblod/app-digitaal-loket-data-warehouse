@@ -23,3 +23,5 @@ services:
     restart: "no"
   subsidies-consumer:
     restart: "no"
+  ldes-client-lmb:
+    restart: "no"
