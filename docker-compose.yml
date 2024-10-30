@@ -63,6 +63,13 @@ services:
       - "logging=true"
     restart: always
     logging: *default-logging
+  m2m-login:
+    image: lblod/m2m-login-service
+    environment:
+      MU_APPLICATION_GRAPH: "http://mu.semte.ch/graphs/public"
+      MU_APPLICATION_AUTH_DISCOVERY_URL: "https://authenticatie-ti.vlaanderen.be/.well-known/oauth-authorization-server/op"
+      USER_GRAPH_TEMPLATE: "http://mu.semte.ch/graphs/sessions/"
+      ACCOUNT_GRAPH_TEMPLATE: "http://mu.semte.ch/graphs/sessions/"
   mandatendatabank-consumer:
       image: lblod/delta-consumer:0.0.24
       environment:
