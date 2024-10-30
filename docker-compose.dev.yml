@@ -15,8 +15,6 @@ services:
     restart: "no"
   migrations:
     restart: "no"
-  mandatendatabank-consumer:
-    restart: "no"
   leidinggevenden-consumer:
     restart: "no"
   persons-sensitive-consumer:
