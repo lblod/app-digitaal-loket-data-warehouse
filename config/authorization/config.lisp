@@ -88,7 +88,7 @@
          }"
   :parameters ())
 
-(define-graph session-graph ("http://mu.semte.ch/sessions/")
+(define-graph session-graph ("http://mu.semte.ch/graphs/sessions/")
   (_ -> _))
 
 (grant (read write)
