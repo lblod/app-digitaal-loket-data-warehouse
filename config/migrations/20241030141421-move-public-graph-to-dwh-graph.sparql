@@ -1,13 +1,2 @@
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/public> {
-    ?s ?p ?o.
-  }
-} INSERT {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s ?p ?o.
-  }
-} WHERE {
-  GRAPH <http://mu.semte.ch/graphs/public> {
-    ?s ?p ?o.
-  }
-}
+ADD <http://mu.semte.ch/graphs/public> TO <http://mu.semte.ch/graphs/datawarehouse>;
+DROP <http://mu.semte.ch/graphs/datawarehouse>
