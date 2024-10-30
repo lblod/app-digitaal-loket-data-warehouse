@@ -148,6 +148,8 @@ services:
       BATCH_GRAPH: http://mu.semte.ch/graphs/batch/lmb
       WORKING_GRAPH: http://mu.semte.ch/graphs/temp/lmb
       # it seems virtuoso is slower if it needs to reuse graphs it dropped before, so randomize them
+      DIRECT_DATABASE_CONNECTION: "http://triplestore:8890/sparql"
+      GRAPH_STORE_URL: "http://triplestore:8890/sparql-graph-crud"
       RANDOMIZE_GRAPHS: true
       CRON_PATTERN: "* */5 * * * *"
       EXTRA_HEADERS: '{"Authorization": "Basic {{LMB_BASIC_AUTH}}"}'
