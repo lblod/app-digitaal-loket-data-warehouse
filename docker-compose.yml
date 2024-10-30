@@ -70,26 +70,6 @@ services:
       MU_APPLICATION_AUTH_DISCOVERY_URL: "https://authenticatie-ti.vlaanderen.be/.well-known/oauth-authorization-server/op"
       USER_GRAPH_TEMPLATE: "http://mu.semte.ch/graphs/sessions/"
       ACCOUNT_GRAPH_TEMPLATE: "http://mu.semte.ch/graphs/sessions/"
-  mandatendatabank-consumer:
-      image: lblod/delta-consumer:0.0.24
-      environment:
-        DCR_SYNC_BASE_URL: 'https://loket.lblod.info/'
-        DCR_SERVICE_NAME: 'mandatendatabank-consumer'
-        DCR_SYNC_FILES_PATH: '/sync/mandatarissen/files'
-        DCR_SYNC_DATASET_SUBJECT: "http://data.lblod.info/datasets/delta-producer/dumps/MandatarissenCacheGraphDump"
-        DCR_INITIAL_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/initialSync/mandatarissen"
-        DCR_DELTA_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/deltaSync/mandatarissen"
-        DCR_JOB_CREATOR_URI: "http://data.lblod.info/services/id/mandatendatabank-consumer"
-        DCR_DISABLE_INITIAL_SYNC: 'true'
-        DCR_BYPASS_MU_AUTH_FOR_EXPENSIVE_QUERIES: 'true'
-        DCR_KEEP_DELTA_FILES: 'true'
-        DCR_DELTA_FILE_FOLDER: '/consumer-files'
-      volumes:
-        - ./data/files/consumer-files/mandaten:/consumer-files/
-      restart: always
-      logging: *default-logging
-      labels:
-        - "logging=true"
   leidinggevenden-consumer:
     image: lblod/delta-consumer:0.0.24
     environment:
@@ -152,3 +132,23 @@ services:
     logging: *default-logging
     labels:
       - "logging=true"
+  ldes-client-lmb:
+    image: lblod/ldes-client:0.0.3
+    restart: always
+    labels:
+      - "logging=true"
+    environment:
+      LOG_LEVEL: debug
+      TARGET_GRAPH: http://mu.semte.ch/graphs/public
+      BATCH_SIZE: 200
+      BYPASS_MU_AUTH: false
+      LDES_BASE: https://dev.mandatenbeheer.lblod.info/streams/ldes/abb/
+      FIRST_PAGE: https://dev.mandatenbeheer.lblod.info/streams/ldes/abb/1
+      BATCH_GRAPH: http://mu.semte.ch/graphs/batch/lmb
+      WORKING_GRAPH: http://mu.semte.ch/graphs/temp/lmb
+      # it seems virtuoso is slower if it needs to reuse graphs it dropped before, so randomize them
+      RANDOMIZE_GRAPHS: true
+      CRON_PATTERN: "* */5 * * * *"
+      EXTRA_HEADERS: '{"Authorization": "Basic {{LMB_BASIC_AUTH}}"}'
+    volumes:
+      - ../config/ldes-client-lmb:/config
