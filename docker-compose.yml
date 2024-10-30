@@ -34,14 +34,15 @@ services:
       - "logging=true"
     restart: always
     logging: *default-logging
-#  database:
-#    image: semtech/mu-authorization:0.6.0-beta.7
-#    environment:
-#      MU_SPARQL_ENDPOINT: "http://triplestore:8890/sparql"
-#    volumes:
-#      - ./config/authorization:/config
   database:
-    image: tenforce/virtuoso:1.3.2-virtuoso7.2.2
+    image: semtech/sparql-parser:0.0.10
+    volumes:
+      - ./config/authorization:/config
+      - ./data/authorization:/data
+    labels:
+      - "logging=true"
+  triplestore:
+    image: redpencil/virtuoso:1.2.0-rc.1
     environment:
       SPARQL_UPDATE: "true"
       DEFAULT_GRAPH: "http://mu.semte.ch/application"
