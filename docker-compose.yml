@@ -71,18 +71,21 @@ services:
   leidinggevenden-consumer:
     image: lblod/delta-consumer:0.0.26
     environment:
-      DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
       DCR_SERVICE_NAME: 'leidinggevenden-consumer'
+      DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
       DCR_SYNC_FILES_PATH: '/sync/leidinggevenden/files'
       DCR_SYNC_DATASET_SUBJECT: "http://data.lblod.info/datasets/delta-producer/dumps/LeidinggevendenCacheGraphDump"
       DCR_INITIAL_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/initialSync/leidinggevenden"
       DCR_DELTA_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/deltaSync/leidinggevenden"
       DCR_JOB_CREATOR_URI: "http://data.lblod.info/services/id/leidinggevenden-consumer"
-      DCR_DISABLE_INITIAL_SYNC: 'false'
-      DCR_BYPASS_MU_AUTH_FOR_EXPENSIVE_QUERIES: 'true'
-      DCR_KEEP_DELTA_FILES: 'true'
+      DCR_DISABLE_INITIAL_SYNC: "false"
+      DCR_KEEP_DELTA_FILES: "true"
+      DCR_BATCH_SIZE: 1000
       DCR_DELTA_FILE_FOLDER: '/consumer-files'
+      SLEEP_BETWEEN_BATCHES: 1
       INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
+      SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
+      SUDO_QUERY_RETRY: "true"
     volumes:
       - ./data/files/consumer-files/leidinggevenden:/consumer-files/
     restart: always
@@ -92,19 +95,22 @@ services:
   persons-sensitive-consumer:
     image: lblod/delta-consumer:0.0.26
     environment:
-      DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
       DCR_SERVICE_NAME: 'persons-sensitive-consumer'
+      DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
+      DCR_SYNC_LOGIN_ENDPOINT: 'https://loket.lblod.info/sync/persons-sensitive/login' # Note: don't forget DCR_SECRET_KEY in docker-compose.override.yml
       DCR_SYNC_FILES_PATH: '/sync/persons-sensitive/files'
       DCR_SYNC_DATASET_SUBJECT: "http://data.lblod.info/datasets/delta-producer/dumps/PersonsSensitiveCacheGraphDump"
       DCR_INITIAL_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/initialSync/persons-sensitive"
       DCR_DELTA_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/deltaSync/persons-sensitive"
       DCR_JOB_CREATOR_URI: "http://data.lblod.info/services/id/persons-sensitive-consumer"
-      DCR_DISABLE_INITIAL_SYNC: 'false'
-      DCR_BYPASS_MU_AUTH_FOR_EXPENSIVE_QUERIES: 'true'
-      DCR_KEEP_DELTA_FILES: 'true'
+      DCR_DISABLE_INITIAL_SYNC: "false"
+      DCR_KEEP_DELTA_FILES: "true"
+      DCR_BATCH_SIZE: 1000
       DCR_DELTA_FILE_FOLDER: '/consumer-files'
-      DCR_SYNC_LOGIN_ENDPOINT: 'https://loket.lblod.info/sync/persons-sensitive/login' # Note: don't forget DCR_SECRET_KEY in docker-compose.override.yml
+      SLEEP_BETWEEN_BATCHES: 1
       INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
+      SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
+      SUDO_QUERY_RETRY: "true"
     volumes:
       - ./data/files/consumer-files/persons-sensitive:/consumer-files/
     restart: always
@@ -146,9 +152,11 @@ services:
       DCR_DISABLE_INITIAL_SYNC: "false"
       DCR_KEEP_DELTA_FILES: "true"
       DCR_BATCH_SIZE: 1000
+      DCR_DELTA_FILE_FOLDER: '/consumer-files'
+      SLEEP_BETWEEN_BATCHES: 1
+      INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
-      INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
     volumes:
       - ./data/files/consumer-files/op-public:/consumer-files/
     restart: always
