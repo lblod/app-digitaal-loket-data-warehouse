@@ -135,12 +135,12 @@ services:
       INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
-      volumes:
+    volumes:
         - ./data/files/consumer-files/mandaten:/consumer-files/
-      restart: always
-      labels:
-        - "logging=true"
-      logging: *default-logging
+    restart: always
+    labels:
+      - "logging=true"
+    logging: *default-logging
   op-public-consumer:
     image: lblod/delta-consumer:0.0.26
     environment:
