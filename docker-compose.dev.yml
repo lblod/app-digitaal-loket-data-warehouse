@@ -19,7 +19,5 @@ services:
     restart: "no"
   persons-sensitive-consumer:
     restart: "no"
-  subsidies-consumer:
-    restart: "no"
   mandatendatabank-consumer:
     restart: "no"
