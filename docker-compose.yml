@@ -117,28 +117,30 @@ services:
     logging: *default-logging
     labels:
       - "logging=true"
-  ldes-client-lmb:
-    image: lblod/ldes-client:0.0.3
-    restart: always
-    labels:
-      - "logging=true"
+  mandatendatabank-consumer:
+    image: lblod/delta-consumer:0.0.26
     environment:
-      LOG_LEVEL: debug
-      TARGET_GRAPH: http://mu.semte.ch/graphs/datawarehouse
-      BATCH_SIZE: 200
-      BYPASS_MU_AUTH: false
-      LDES_BASE: https://dev.mandatenbeheer.lblod.info/streams/ldes/abb/
-      FIRST_PAGE: https://dev.mandatenbeheer.lblod.info/streams/ldes/abb/1
-      BATCH_GRAPH: http://mu.semte.ch/graphs/batch/lmb
-      WORKING_GRAPH: http://mu.semte.ch/graphs/temp/lmb
-      # it seems virtuoso is slower if it needs to reuse graphs it dropped before, so randomize them
-      DIRECT_DATABASE_CONNECTION: "http://triplestore:8890/sparql"
-      GRAPH_STORE_URL: "http://triplestore:8890/sparql-graph-crud"
-      RANDOMIZE_GRAPHS: true
-      CRON_PATTERN: "* */5 * * * *"
-      EXTRA_HEADERS: '{"Authorization": "Basic {{LMB_BASIC_AUTH}}"}'
-    volumes:
-      - ../config/ldes-client-lmb:/config
+      DCR_SERVICE_NAME: "mandatendatabank-consumer"
+      DCR_SYNC_BASE_URL: "https://loket.lblod.info/"
+      DCR_SYNC_FILES_PATH: "/sync/mandatarissen/files"
+      DCR_SYNC_DATASET_SUBJECT: "http://data.lblod.info/datasets/delta-producer/dumps/MandatarissenCacheGraphDump"
+      DCR_INITIAL_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/initialSync/mandatarissen"
+      DCR_DELTA_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/mandatarissenSyncing"
+      DCR_JOB_CREATOR_URI: "http://data.lblod.info/services/id/mandatendatabank-consumer"
+      DCR_DISABLE_INITIAL_SYNC: "false"
+      DCR_KEEP_DELTA_FILES: "true"
+      DCR_BATCH_SIZE: 1000
+      DCR_DELTA_FILE_FOLDER: '/consumer-files'
+      SLEEP_BETWEEN_BATCHES: 1
+      INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
+      SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
+      SUDO_QUERY_RETRY: "true"
+      volumes:
+        - ./data/files/consumer-files/mandaten:/consumer-files/
+      restart: always
+      labels:
+        - "logging=true"
+      logging: *default-logging
   op-public-consumer:
     image: lblod/delta-consumer:0.0.26
     environment:
