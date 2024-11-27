@@ -68,12 +68,9 @@ services:
     restart: always
     logging: *default-logging
   m2m-login:
-    image: lblod/m2m-login-service
+    image: lblod/m2m-login-service:feature-call-scope
     environment:
-      MU_APPLICATION_GRAPH: "http://mu.semte.ch/graphs/sessions/"
-      MU_APPLICATION_AUTH_DISCOVERY_URL: "https://authenticatie-ti.vlaanderen.be/.well-known/oauth-authorization-server/op"
-      USER_GRAPH_TEMPLATE: "http://mu.semte.ch/graphs/sessions/"
-      ACCOUNT_GRAPH_TEMPLATE: "http://mu.semte.ch/graphs/sessions/"
+      DEFAULT_MU_AUTH_SCOPE: "http://services.semantic.works/m2m-login"
   leidinggevenden-consumer:
     image: lblod/delta-consumer:0.0.26
     environment:

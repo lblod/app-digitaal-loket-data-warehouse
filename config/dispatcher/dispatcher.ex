@@ -20,6 +20,10 @@ defmodule Dispatcher do
     forward conn, [], "http://database:8890/sparql"
   end
 
+  match "/m2m/*path", @json do
+    Proxy.forward conn, path, "http://m2m-login/"
+  end
+
   # Temporary Redirect to "/sparql" endpoint
   match "/*_", @html do
     send_resp( conn, 307, "<!DOCTYPE html><html><head><meta http-equiv=\"refresh\" content=\"0; url='/sparql'\" /></head><body><p>Please follow <a href=\"/sparql\">this link</a>.</p></body></html>" )
