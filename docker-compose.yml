@@ -72,7 +72,7 @@ services:
     environment:
       DEFAULT_MU_AUTH_SCOPE: "http://services.semantic.works/m2m-login"
   leidinggevenden-consumer:
-    image: lblod/delta-consumer:0.0.26
+    image: lblod/delta-consumer:0.1.4
     environment:
       DCR_SERVICE_NAME: 'leidinggevenden-consumer'
       DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
@@ -96,7 +96,7 @@ services:
     labels:
       - "logging=true"
   persons-sensitive-consumer:
-    image: lblod/delta-consumer:0.0.26
+    image: lblod/delta-consumer:0.1.4
     environment:
       DCR_SERVICE_NAME: 'persons-sensitive-consumer'
       DCR_SYNC_BASE_URL: 'https://loket.lblod.info' # replace with link to Loket API
@@ -121,7 +121,7 @@ services:
     labels:
       - "logging=true"
   mandatendatabank-consumer:
-    image: lblod/delta-consumer:0.0.26
+    image: lblod/delta-consumer:0.1.4
     environment:
       DCR_SERVICE_NAME: "mandatendatabank-consumer"
       DCR_SYNC_BASE_URL: "https://loket.lblod.info/"
@@ -145,7 +145,7 @@ services:
       - "logging=true"
     logging: *default-logging
   op-public-consumer:
-    image: lblod/delta-consumer:0.0.26
+    image: lblod/delta-consumer:0.1.4
     environment:
       DCR_SERVICE_NAME: "op-public-consumer"
       DCR_SYNC_BASE_URL: "https://organisaties.abb.lblod.info" # replace with link to OP API
