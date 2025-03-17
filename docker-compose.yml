@@ -158,11 +158,15 @@ services:
       DCR_KEEP_DELTA_FILES: "true"
       DCR_BATCH_SIZE: 1000
       DCR_DELTA_FILE_FOLDER: '/consumer-files'
+      DCR_CRON_PATTERN_DELTA_SYNC: "*/5 * * * *"
+      DCR_ENABLE_TRIPLE_REMAPPING: "true"
+      DCR_LANDING_ZONE_GRAPH: "http://mu.semte.ch/graphs/landing-zone/op-public"
+      DCR_REMAPPING_GRAPH: "http://mu.semte.ch/graphs/datawarehouse"
       SLEEP_BETWEEN_BATCHES: 1
-      INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
     volumes:
+      - ./config/delta-consumers/op-public-consumer/mapping:/config/mapping
       - ./data/files/consumer-files/op-public:/consumer-files/
     restart: always
     labels:
