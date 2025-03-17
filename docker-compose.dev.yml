@@ -7,19 +7,19 @@ services:
     restart: "no"
   dispatcher:
     restart: "no"
-#  database:
-#    restart: "no"
   database:
+    restart: "no"
+  triplestore:
     ports:
       - "8892:8890"
     restart: "no"
   migrations:
     restart: "no"
-  mandatendatabank-consumer:
-    restart: "no"
   leidinggevenden-consumer:
     restart: "no"
   persons-sensitive-consumer:
     restart: "no"
-  subsidies-consumer:
+  mandatendatabank-consumer:
+    restart: "no"
+  op-public-consumer:
     restart: "no"
