@@ -1,4 +1,7 @@
 # Changelog
+## 1.8.0 (2025-03-17)
+### General
+  - Big maintenance job: extra data sources, new mu-auth and m2m ACM login: see [PR](https://github.com/lblod/app-digitaal-loket-data-warehouse/pull/7)
 ## 1.7.2 (2023-08-20)
 - Restore `version` attribute for `docker-compose.yml`
   - Removing it seems to break the config on v1 of `docker-compose`.
