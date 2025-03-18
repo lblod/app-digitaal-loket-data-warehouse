@@ -34,6 +34,8 @@ services:
     logging: *default-logging
   database:
     image: semtech/sparql-parser:0.0.10
+    environment:
+      LISP_DYNAMIC_SPACE_SIZE: "4096"
     volumes:
       - ./config/authorization:/config
       - ./data/authorization:/data
@@ -162,6 +164,7 @@ services:
       DCR_ENABLE_TRIPLE_REMAPPING: "true"
       DCR_LANDING_ZONE_GRAPH: "http://mu.semte.ch/graphs/landing-zone/op-public"
       DCR_REMAPPING_GRAPH: "http://mu.semte.ch/graphs/datawarehouse"
+      DCR_DIRECT_REMAPPING_DATABASE: "triplestore"
       SLEEP_BETWEEN_BATCHES: 1
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
