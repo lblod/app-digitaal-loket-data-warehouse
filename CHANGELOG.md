@@ -1,4 +1,10 @@
 # Changelog
+## Unreleased
+- Add missing docker compose keys. [DL-6490]
+### Deploy Notes
+```
+drc up -d database delta-notifier m2m-login
+```
 ## 1.8.0 (2025-03-17)
 ### General
   - Big maintenance job: extra data sources, new mu-auth and m2m ACM login: see [PR](https://github.com/lblod/app-digitaal-loket-data-warehouse/pull/7)
