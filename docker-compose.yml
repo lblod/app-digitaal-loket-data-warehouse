@@ -39,6 +39,8 @@ services:
       - ./data/authorization:/data
     labels:
       - "logging=true"
+    restart: always
+    logging: *default-logging
   triplestore:
     image: redpencil/virtuoso:1.2.0-rc.1
     environment:
@@ -57,6 +59,8 @@ services:
       - ./config/delta:/config
     labels:
       - "logging=true"
+    restart: always
+    logging: *default-logging
   migrations:
     image: semtech/mu-migrations-service:0.7.0
     links:
@@ -71,6 +75,10 @@ services:
     image: lblod/m2m-login-service:feature-call-scope
     environment:
       DEFAULT_MU_AUTH_SCOPE: "http://services.semantic.works/m2m-login"
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
   leidinggevenden-consumer:
     image: lblod/delta-consumer:0.0.26
     environment:
