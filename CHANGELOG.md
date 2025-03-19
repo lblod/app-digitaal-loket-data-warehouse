@@ -1,5 +1,5 @@
 # Changelog
-## Unreleased
+## 1.8.1 (2025-03-19)
 - Add missing docker compose keys. [DL-6490]
 ### Deploy Notes
 ```
