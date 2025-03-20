@@ -7,6 +7,11 @@ drc down
 drc up -d migrations
 drc up -d database op-public-consumer # wait for initial sync to finish
 drc up -d
+## 1.8.1 (2025-03-19)
+- Add missing docker compose keys. [DL-6490]
+### Deploy Notes
+```
+drc up -d database delta-notifier m2m-login
 ```
 ## 1.8.0 (2025-03-17)
 ### General
