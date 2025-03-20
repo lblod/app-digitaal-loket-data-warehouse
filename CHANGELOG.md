@@ -1,5 +1,5 @@
 # Changelog
-## Unreleased
+## 1.9.0 (2025-03-20)
 - Switch OP master [DL-6496]
 ### deploy instructions
 ```
