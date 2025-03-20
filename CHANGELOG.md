@@ -1,4 +1,12 @@
 # Changelog
+## Unreleased
+- Switch OP master [DL-6496]
+### deploy instructions
+```
+drc down
+drc up -d migrations
+drc up -d database op-public-consumer # wait for initial sync to finish
+drc up -d
 ## 1.8.1 (2025-03-19)
 - Add missing docker compose keys. [DL-6490]
 ### Deploy Notes
