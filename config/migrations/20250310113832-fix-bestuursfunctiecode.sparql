@@ -1,0 +1,12 @@
+INSERT {
+  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
+    ?s a <http://mu.semte.ch/vocabularies/ext/BestuursfunctieCode>;
+      ?p ?o.
+  }
+}
+WHERE {
+  GRAPH <http://mu.semte.ch/graphs/landing-zone/op-public> {
+    ?s a <http://lblod.data.gift/vocabularies/organisatie/BestuursfunctieCode>;
+      ?p ?o.
+  }
+}
