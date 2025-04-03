@@ -262,6 +262,7 @@ services:
       SLEEP_BETWEEN_BATCHES: 1
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
+      BYPASS_MU_AUTH_FOR_EXPENSIVE_QUERIES: "true"
       DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
       BATCH_SIZE: 20
     volumes:
