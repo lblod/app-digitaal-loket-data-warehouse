@@ -40,30 +40,57 @@ Start the system:
 docker-compose up
 ```
 
-### Sync data from digitaal loket (Mandaten en Leidingevenden)
+### Sync data from external sources
+#### delta-consumers
+:warning: By default, the delta-consumers won't start to sync automatically. There are many of them, and you risk overloading the database.
 
-Set up a sync to load Mandaten en Leidingevenden from a Digitaal Loket instance to Digitaal Loket Data Warehouse with the [delta-consumer](https://github.com/lblod/delta-consumer).
+Additionally, some consumers are linked to private streams, so API keys should be provided.
 
-An example `docker-compose.override.yml` configuration. See [delta-consumer](https://github.com/lblod/delta-consumer) for more info.
+Finally, all consumers are directed to QA by default. You'll need to update the endpoint if you want other sources.
+
+Update `docker-compose.override.yml` for this.
+
+Here is an example of how it looks for production, excluding the keys.
 
 ```
 version: '3.7'
 
 services:
-  mandatendatabank-consumer:
-    environment:
-      DCR_SYNC_BASE_URL: 'https://my-digital-loket-instance.net'
-      DCR_DISABLE_INITIAL_SYNC: 'false'
-      BATCH_SIZE: 1000
   leidinggevenden-consumer:
     environment:
-      DCR_SYNC_BASE_URL: 'https://my-digital-loket-instance.net'
-      DCR_DISABLE_INITIAL_SYNC: 'false'
-      BATCH_SIZE: 1000
+      DCR_DISABLE_INITIAL_SYNC: "false"  # setting this to "false" will start the consumer (yes confusing sorry about that)
+      DCR_SYNC_BASE_URL: 'https://loket.lokaalbestuur.vlaanderen.be/'
   persons-sensitive-consumer:
     environment:
-      DCR_SECRET_KEY: 'shared key with producer stack'
-      DCR_SYNC_BASE_URL: 'https://my-digital-loket-instance.net'
-      DCR_SYNC_LOGIN_ENDPOINT: 'http://my-digital-loket-instance.net/sync/persons-sensitive/login'
-      DCR_DISABLE_INITIAL_SYNC: 'false'
+      DCR_DISABLE_INITIAL_SYNC: "false"  # setting this to "false" will start the consumer (yes confusing sorry about that)
+      DCR_SYNC_BASE_URL: 'https://loket.lokaalbestuur.vlaanderen.be/'
+      DCR_SYNC_LOGIN_ENDPOINT: 'https://loket.lokaalbestuur.vlaanderen.be/sync/persons-sensitive/login'
+      DCR_SECRET_KEY: '<enter key here>'
+  mandatendatabank-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"  # setting this to "false" will start the consumer (yes confusing sorry about that)
+      DCR_SYNC_BASE_URL: 'https://loket.lokaalbestuur.vlaanderen.be/'
+  op-public-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"  # setting this to "false" will start the consumer (yes confusing sorry about that)
+      DCR_SYNC_BASE_URL: "https://organisaties.abb.vlaanderen.be"
+  worship-services-sensitive-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"  # setting this to "false" will start the consumer (yes confusing sorry about that)
+      DCR_SYNC_BASE_URL: 'https://loket.lokaalbestuur.vlaanderen.be/'
+      DCR_SYNC_LOGIN_ENDPOINT: 'https://loket.lokaalbestuur.vlaanderen.be/sync/worship-services-sensitive/login'
+      DCR_SECRET_KEY: '<enter key here>'
+  submissions-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"  # setting this to "false" will start the consumer (yes confusing sorry about that)
+      DCR_SYNC_BASE_URL: 'https://loket.lokaalbestuur.vlaanderen.be/'
+      DCR_SYNC_LOGIN_ENDPOINT: 'https://loket.lokaalbestuur.vlaanderen.be/sync/worship-submissions/login'
+      DCR_SECRET_KEY: '<enter key here>'
+  subsidies-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"  # setting this to "false" will start the consumer (yes confusing sorry about that)
+      DCR_SYNC_BASE_URL: 'https://subsidiepunt.abb.vlaanderen.be/'
+      DCR_SYNC_LOGIN_ENDPOINT: 'https://subsidiepunt.abb.vlaanderen.be/sync/subsidies/login'
+      DCR_SECRET_KEY: '<enter key here>'
 ```
+See [delta-consumer](https://github.com/lblod/delta-consumer) for more info.
