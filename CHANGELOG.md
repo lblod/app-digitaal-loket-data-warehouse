@@ -1,4 +1,33 @@
 # Changelog
+## 1.10.0 (2025-04-03)
+- Added extra sources
+
+### deploy instructions
+```
+drc restart migrations
+```
+Ensure in docker-compose.override.yml
+```
+  worship-services-sensitive-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+      DCR_SYNC_BASE_URL: 'https://loket.lokaalbestuur.vlaanderen.be/'
+      DCR_SYNC_LOGIN_ENDPOINT: 'https://loket.lokaalbestuur.vlaanderen.be/sync/worship-services-sensitive/login'
+      DCR_SECRET_KEY: 'shared key with producer stack'
+  submissions-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+      DCR_SYNC_BASE_URL: 'https://loket.lokaalbestuur.vlaanderen.be/'
+      DCR_SYNC_LOGIN_ENDPOINT: 'https://loket.lokaalbestuur.vlaanderen.be/sync/worship-submissions/login'
+      DCR_SECRET_KEY: "shared key with producer stack"
+  subsidies-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+      DCR_SYNC_BASE_URL: 'https://subsidiepunt.abb.vlaanderen.be/'
+      DCR_SYNC_LOGIN_ENDPOINT: 'https://subsidiepunt.abb.vlaanderen.be/sync/subsidies/login'
+      DCR_SECRET_KEY: "shared key with producer stack"
+```
+
 ## 1.9.0 (2025-03-20)
 - Switch OP master [DL-6496]
 ### deploy instructions
@@ -11,6 +40,7 @@ drc up -d
 ## 1.8.1 (2025-03-19)
 - Add missing docker compose keys. [DL-6490]
 ### Deploy Notes
+```
 drc up -d database delta-notifier m2m-login
 ```
 ## 1.8.0 (2025-03-17)
