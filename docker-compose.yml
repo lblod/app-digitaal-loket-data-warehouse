@@ -187,3 +187,35 @@ services:
     labels:
       - "logging=true"
     logging: *default-logging
+  worship-services-sensitive-consumer:
+    image: lblod/delta-consumer:0.1.4
+    environment:
+      DCR_SERVICE_NAME: "worship-services-sensitive-consumer"
+      DCR_SYNC_BASE_URL: "https://loket.lblod.info/"
+      DCR_SYNC_LOGIN_ENDPOINT: "https://loket.lblod.info/sync/worship-services-sensitive/login"
+      DCR_SECRET_KEY: "<override with secret key>"
+      DCR_SYNC_FILES_PATH: "/sync/worship-services-sensitive/files"
+      DCR_SYNC_DATASET_SUBJECT: "http://data.lblod.info/datasets/delta-producer/dumps/WorshipServicesSensitiveCacheGraphDump"
+      DCR_INITIAL_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/wsSensitive"
+      DCR_DELTA_SYNC_JOB_OPERATION: "http://redpencil.data.gift/id/jobs/concept/JobOperation/deltas/consumer/wsSensitiveDeltaFileSyncing"
+      DCR_JOB_CREATOR_URI: "http://data.lblod.info/services/id/worship-services-sensitive-consumer"
+      DCR_DISABLE_INITIAL_SYNC: "false"
+      DCR_KEEP_DELTA_FILES: "true"
+      DCR_BATCH_SIZE: 1000
+      DCR_DELTA_FILE_FOLDER: "/consumer-files"
+      DCR_DELTA_JOBS_RETENTION_PERIOD: "30"
+      DCR_ENABLE_TRIPLE_REMAPPING: "true"
+      DCR_LANDING_ZONE_GRAPH: "http://mu.semte.ch/graphs/landing-zone/worship-services-sensitive"
+      DCR_REMAPPING_GRAPH: "http://mu.semte.ch/graphs/datawarehouse"
+      DCR_DIRECT_REMAPPING_DATABASE: "triplestore"
+      SLEEP_BETWEEN_BATCHES: 1
+      SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
+      SUDO_QUERY_RETRY: "true"
+      DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
+    volumes:
+      - ./config/delta-consumers/worship-services-sensitive/mapping:/config/mapping
+      - ./data/files/consumer-files/worship-services-sensitive:/consumer-files/
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
