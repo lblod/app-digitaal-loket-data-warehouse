@@ -99,6 +99,7 @@ services:
       INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
+      DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
     volumes:
       - ./data/files/consumer-files/leidinggevenden:/consumer-files/
     restart: always
@@ -124,6 +125,7 @@ services:
       INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
+      DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
     volumes:
       - ./data/files/consumer-files/persons-sensitive:/consumer-files/
     restart: always
@@ -148,6 +150,7 @@ services:
       INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
+      DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
     volumes:
         - ./data/files/consumer-files/mandaten:/consumer-files/
     restart: always
@@ -176,6 +179,7 @@ services:
       SLEEP_BETWEEN_BATCHES: 1
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
+      DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
     volumes:
       - ./config/delta-consumers/op-public-consumer/mapping:/config/mapping
       - ./data/files/consumer-files/op-public:/consumer-files/
