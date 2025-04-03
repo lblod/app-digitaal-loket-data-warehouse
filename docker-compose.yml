@@ -240,7 +240,6 @@ services:
       DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
     volumes:
       - ./data/files/consumer-files/submissions:/consumer-files/
-      - ./data/files:/share
     labels:
       - "logging=true"
     restart: always
