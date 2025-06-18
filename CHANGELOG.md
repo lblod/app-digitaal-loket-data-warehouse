@@ -1,4 +1,14 @@
 # Changelog
+## 1.10.1 (2025-07-18)
+- Added empty configuration for delta-notifier
+- Bumped mu-identifier for use of scopes
+
+### deploy instructions
+```
+drc restart delta-notifier
+drc up -d identifier
+```
+
 ## 1.10.0 (2025-04-03)
 - Added extra sources
 
