@@ -1,0 +1,24 @@
+# https://binnenland.atlassian.net/browse/ABI-1396
+# Note: eenheid and changeevent were not connected: cartesian product
+# Since it was not used in the select, I've just commented it out
+PREFIX ch:      <http://data.lblod.info/vocabularies/contacthub/>
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
+PREFIX dct:     <http://purl.org/dc/terms/>
+
+SELECT DISTINCT
+  ?OrgEenheidUri
+  ?changeEvent
+  ?changeTypeLabel
+  ?changeEventDate
+WHERE {
+  # ?eenheid skos:prefLabel ?eenheidLabel ;
+  #   besluit:classificatie ?eenheidClassificatie .
+
+  ?changeEvent org:resultingOrganization ?OrgEenheidUri ;
+    dct:date ?changeEventDate ;
+    ch:typeWijziging ?changeTypeURI .
+
+  ?changeTypeURI skos:prefLabel ?changeTypeLabel .
+}

@@ -1,0 +1,20 @@
+# https://binnenland.atlassian.net/browse/ABI-1383
+# Adminlabel not used? commented it out.
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX org:  <http://www.w3.org/ns/org#>
+
+SELECT DISTINCT
+  ?classificationURI
+  ?classificationLabel
+WHERE {
+  ?adminUnit org:classification ?classificationURI .
+
+  # OPTIONAL { ?adminUnit skos:prefLabel ?adminLabel . }
+
+  ?classificationURI skos:prefLabel ?classificationLabel .
+
+  FILTER (
+    lang(?classificationLabel) = "" ||
+    langMatches(lang(?classificationLabel), "nl")
+  )
+}

@@ -1,0 +1,20 @@
+# https://binnenland.atlassian.net/browse/ABI-1388
+# Combines original queries 1 (Bestuurt/GoverningBody), 2 (RepresentativeBody),
+# and the original combined query -- anchored on OrgEenheid to avoid full store scan.
+# Query 3 (AdminUnit/LokaalBestuur) is kept separate below.
+# Query 4 (BetrokkenLokaalBestuur) is already covered by ABI-1380.
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
+
+SELECT DISTINCT
+  ?OrgEenheidUri
+  ?BestuurtURI
+  ?GoverningBodyURI
+  ?RepresentativeBodyURI
+WHERE {
+  ?OrgEenheidUri org:classification ?type .
+
+  OPTIONAL { ?BestuurtURI besluit:bestuurt ?OrgEenheidUri . }
+  OPTIONAL { ?GoverningBodyURI org:hasSubOrganization ?OrgEenheidUri . }
+  OPTIONAL { ?RepresentativeBodyURI org:linkedTo ?OrgEenheidUri . }
+}

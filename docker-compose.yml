@@ -33,7 +33,7 @@ services:
     restart: always
     logging: *default-logging
   database:
-    image: semtech/sparql-parser:0.0.10
+    image: semtech/sparql-parser:0.0.15
     environment:
       LISP_DYNAMIC_SPACE_SIZE: "8192"
     volumes:
@@ -240,6 +240,37 @@ services:
       DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
     volumes:
       - ./data/files/consumer-files/submissions:/consumer-files/
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
+  data-monitoring:
+    image: lblod/data-monitoring-service:0.1.0
+    environment:
+      JOB_CREATOR_URI: "http://data.lblod.info/services/id/data-monitoring-service"
+      DEFAULT_MU_AUTH_SCOPE: "http://services.semantic.works/data-monitoring"
+      ANOMALY_THRESHOLD_PERCENT: "10"
+      ANOMALY_COMPARISON_WINDOW: "5" # 5 days (5 runs, one run per day)
+      EMAIL_FROM: "noreply@lblod.info"
+      EMAIL_TO: "noreply@lblod.info"
+    volumes:
+      - ./config/data-monitoring/queries:/config/queries
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
+  deliver-email:
+    image: redpencil/deliver-email-service:1.0.0
+    environment:
+      MAILBOX_URI: "http://data.lblod.info/id/mailboxes/1"
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
+  scheduled-job-controller:
+    image: lblod/scheduled-job-controller-service:1.2.1
+    environment:
+      LOG_SPARQL_ALL: "false"
     labels:
       - "logging=true"
     restart: always

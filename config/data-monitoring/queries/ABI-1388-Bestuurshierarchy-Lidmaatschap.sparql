@@ -1,0 +1,16 @@
+# https://binnenland.atlassian.net/browse/ABI-1388
+# Query 5: Lidmaatschap
+PREFIX org: <http://www.w3.org/ns/org#>
+
+SELECT DISTINCT
+  ?lidmaatschap
+  ?OrgEenheidUri
+  ?member
+  ?role
+WHERE {
+  ?lidmaatschap a org:Membership ;
+    org:organization ?OrgEenheidUri ;
+    org:member ?member .
+
+  OPTIONAL { ?lidmaatschap org:role ?role . }
+}

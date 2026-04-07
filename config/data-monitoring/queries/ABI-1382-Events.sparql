@@ -1,0 +1,21 @@
+# https://binnenland.atlassian.net/browse/ABI-1382
+# Note: made sure at least on triple pattern is outside the optional block.
+PREFIX ch:   <http://data.lblod.info/vocabularies/contacthub/>
+PREFIX org:  <http://www.w3.org/ns/org#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+
+SELECT DISTINCT
+  ?OrgEenheidUri
+  ?changeEvent
+  ?changeTypeLabel
+  ?changeEventDate
+WHERE {
+  ?changeEvent a org:ChangeEvent .
+  OPTIONAL {
+    ?changeEvent org:resultingOrganization ?OrgEenheidUri ;
+      dct:date ?changeEventDate ;
+      ch:typeWijziging ?changeTypeURI .
+    ?changeTypeURI skos:prefLabel ?changeTypeLabel .
+  }
+}

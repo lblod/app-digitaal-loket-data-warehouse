@@ -1,0 +1,40 @@
+# https://binnenland.atlassian.net/browse/ABI-1394
+# Note: orgaanInTijd not used?
+PREFIX nmo:     <http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#>
+PREFIX adms:    <http://www.w3.org/ns/adms#>
+PREFIX pav:     <http://purl.org/pav/>
+PREFIX prov:    <http://www.w3.org/ns/prov#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
+PREFIX eli:     <http://data.europa.eu/eli/ontology#>
+PREFIX dct:     <http://purl.org/dc/terms/>
+PREFIX meb:     <http://rdf.myexperiment.org/ontologies/base/>
+PREFIX melding: <http://lblod.data.gift/vocabularies/automatische-melding/>
+PREFIX ext:     <http://mu.semte.ch/vocabularies/ext/>
+
+SELECT DISTINCT
+  ?inzending
+  ?OrgEenheidUri
+  ?datumZitting
+  ?datumVerzending
+  ?typeBesluitLabel
+  ?statusURI
+  ?statusLabel
+WHERE {
+  ?inzending a meb:Submission ;
+    pav:createdBy ?OrgEenheidUri ;
+    nmo:sentDate ?datumVerzending ;
+    adms:status ?statusURI ;
+    prov:generated ?formulier .
+
+  OPTIONAL { ?statusURI skos:prefLabel ?statusLabel . }
+
+  ?formulier a melding:FormData ;
+    ext:sessionStartedAtTime ?datumZitting ;
+    eli:passed_by ?orgaanInTijd .
+
+  OPTIONAL {
+    ?formulier dct:type ?typeBesluit .
+    ?typeBesluit skos:prefLabel ?typeBesluitLabel .
+  }
+}

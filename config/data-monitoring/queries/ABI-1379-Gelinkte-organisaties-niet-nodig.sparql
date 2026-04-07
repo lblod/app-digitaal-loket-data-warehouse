@@ -1,0 +1,10 @@
+# https://binnenland.atlassian.net/browse/ABI-1379
+# Note: BestuurtOrgEenheidUri is not bound (not used in where clause - removed it)
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX org:  <http://www.w3.org/ns/org#>
+
+SELECT DISTINCT ?OrgEenheidUri ?GelinkteOrgEenheidUri
+WHERE {
+  ?OrgEenheidUri org:classification ?OrgTypeUri .
+  ?OrgEenheidUri org:linkedTo ?GelinkteOrgEenheidUri .
+}

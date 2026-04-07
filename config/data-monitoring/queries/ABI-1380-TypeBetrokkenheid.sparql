@@ -1,0 +1,11 @@
+# https://binnenland.atlassian.net/browse/ABI-1380
+# No results on DWH endpoint
+PREFIX ere:  <http://data.lblod.info/vocabularies/erediensten/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT ?typeBetrokkenheidURI ?typeBetrokkenheidLabel
+WHERE {
+  ?blb a ere:BetrokkenLokaleBesturen ;
+       ere:typebetrokkenheid ?typeBetrokkenheidURI .
+  ?typeBetrokkenheidURI skos:prefLabel ?typeBetrokkenheidLabel .
+}

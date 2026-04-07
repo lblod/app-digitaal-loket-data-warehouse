@@ -1,0 +1,11 @@
+# https://binnenland.atlassian.net/browse/ABI-1388
+# Query 3: AdminUnit / LokaalBestuur
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX bestuur: <http://data.lblod.info/vocabularies/erediensten/>
+
+SELECT DISTINCT ?OrgEenheidUri ?AdminUnitURI ?LokaalBestuurURI
+WHERE {
+  ?AdminUnitURI org:organization ?OrgEenheidUri .
+
+  OPTIONAL { ?LokaalBestuurURI bestuur:betrokkenBestuur ?AdminUnitURI . }
+}

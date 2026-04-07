@@ -1,0 +1,42 @@
+# https://binnenland.atlassian.net/browse/ABI-1393
+PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
+PREFIX mandaat: <http://data.vlaanderen.be/ns/mandaat#>
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+PREFIX person:  <http://www.w3.org/ns/person#>
+PREFIX persoon: <http://data.vlaanderen.be/ns/persoon#>
+PREFIX ere:     <http://data.lblod.info/vocabularies/erediensten/>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+
+SELECT DISTINCT
+  ?OrgEenheidUri
+  ?mandaat
+  ?role
+  ?rolename
+  ?mandataris
+  ?status
+  ?startDate
+  ?endDate
+  ?plannedEndDate
+  ?persoon
+WHERE {
+  ?bestuurInTijd a besluit:Bestuursorgaan ;
+    org:hasPost ?mandaat ;
+    mandaat:isTijdspecialisatieVan ?bestuur .
+
+  ?bestuur besluit:bestuurt ?OrgEenheidUri .
+
+  ?mandaat a mandaat:Mandaat ;
+    org:role ?role ;
+    org:heldBy ?mandataris .
+
+  ?role skos:prefLabel ?rolename .
+
+  ?mandataris mandaat:status ?status ;
+    mandaat:start ?startDate .
+
+  OPTIONAL { ?mandataris mandaat:einde ?endDate . }
+  OPTIONAL { ?mandataris ere:geplandeEinddatumAanstelling ?plannedEndDate . }
+
+  ?mandataris mandaat:isBestuurlijkeAliasVan ?persoon .
+}

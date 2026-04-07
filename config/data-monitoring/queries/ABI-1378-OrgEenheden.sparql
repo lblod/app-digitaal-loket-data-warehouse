@@ -1,0 +1,24 @@
+# https://binnenland.atlassian.net/browse/ABI-1378
+PREFIX skos:      <http://www.w3.org/2004/02/skos/core#>
+PREFIX org:       <http://www.w3.org/ns/org#>
+PREFIX voc:       <http://mu.semte.ch/vocabularies/core/>
+PREFIX reorg:     <http://www.w3.org/ns/regorg#>
+PREFIX eredienst: <http://data.lblod.info/vocabularies/erediensten/>
+
+SELECT DISTINCT
+  ?OrgEenheidUri
+  ?OrgEenheidID
+  ?OrgEenheidLabel
+  ?OrgTypeUri
+  ?OrgEenheidStatus
+  ?OrgEenheidTypeEredienst
+  ?grensoverschrijdend
+WHERE {
+  ?OrgEenheidUri org:classification ?OrgTypeUri .
+  ?OrgEenheidUri voc:uuid ?OrgEenheidID .
+
+  OPTIONAL { ?OrgEenheidUri skos:prefLabel ?OrgEenheidLabel . }
+  OPTIONAL { ?OrgEenheidUri reorg:orgStatus ?OrgEenheidStatus . }
+  OPTIONAL { ?OrgEenheidUri eredienst:typeEredienst ?OrgEenheidTypeEredienst . }
+  OPTIONAL { ?OrgEenheidUri eredienst:grensoverschrijdend ?grensoverschrijdend . }
+}
