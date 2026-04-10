@@ -1,0 +1,9 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+# OP uses foaf:givenName, Loket uses foaf:firstName
+
+CONSTRUCT {
+  ?s foaf:givenName ?o .
+} WHERE {
+  ?s foaf:firstName ?o .
+}

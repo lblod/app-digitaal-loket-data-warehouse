@@ -13,9 +13,7 @@ SELECT DISTINCT
 WHERE {
   ?bestuursorgaan a besluit:Bestuursorgaan .
 
-  { ?bestuursorgaan gen:isTijdspecialisatieVan ?isTijdspecialisatieVan . }
-  UNION
-  { ?bestuursorgaan mandaat:isTijdspecialisatieVan ?isTijdspecialisatieVan . }
+  ?bestuursorgaan gen:isTijdspecialisatieVan ?isTijdspecialisatieVan .
 
   OPTIONAL { ?bestuursorgaan mandaat:bindingStart ?bindingStart . }
   OPTIONAL { ?bestuursorgaan mandaat:bindingEinde ?bindingEinde . }

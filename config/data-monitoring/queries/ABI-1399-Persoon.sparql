@@ -6,7 +6,7 @@ PREFIX dct:      <http://purl.org/dc/terms/>
 PREFIX adms:     <http://www.w3.org/ns/adms#>
 PREFIX prov:     <http://www.w3.org/ns/prov#>
 PREFIX skos:     <http://www.w3.org/2004/02/skos/core#>
-PREFIX persoon:  <http://data.vlaanderen.be/ns/persoon#>
+PREFIX persoon:  <https://data.vlaanderen.be/ns/persoon#>
 PREFIX generiek: <https://data.vlaanderen.be/ns/generiek#>
 
 SELECT DISTINCT

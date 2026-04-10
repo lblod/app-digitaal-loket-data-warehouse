@@ -96,11 +96,15 @@ services:
       DCR_BATCH_SIZE: 1000
       DCR_DELTA_FILE_FOLDER: '/consumer-files'
       SLEEP_BETWEEN_BATCHES: 1
-      INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
+      DCR_ENABLE_TRIPLE_REMAPPING: "true"
+      DCR_LANDING_ZONE_GRAPH: "http://mu.semte.ch/graphs/landing-zone/leidinggevenden"
+      DCR_REMAPPING_GRAPH: "http://mu.semte.ch/graphs/datawarehouse"
+      DCR_DIRECT_REMAPPING_DATABASE: "triplestore"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
       DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
     volumes:
+      - ./config/delta-consumers/loket-mapping:/config/mapping
       - ./data/files/consumer-files/leidinggevenden:/consumer-files/
     restart: always
     logging: *default-logging
@@ -122,11 +126,15 @@ services:
       DCR_BATCH_SIZE: 1000
       DCR_DELTA_FILE_FOLDER: '/consumer-files'
       SLEEP_BETWEEN_BATCHES: 1
-      INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
+      DCR_ENABLE_TRIPLE_REMAPPING: "true"
+      DCR_LANDING_ZONE_GRAPH: "http://mu.semte.ch/graphs/landing-zone/persons-sensitive"
+      DCR_REMAPPING_GRAPH: "http://mu.semte.ch/graphs/datawarehouse"
+      DCR_DIRECT_REMAPPING_DATABASE: "triplestore"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
       DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
     volumes:
+      - ./config/delta-consumers/loket-mapping:/config/mapping
       - ./data/files/consumer-files/persons-sensitive:/consumer-files/
     restart: always
     logging: *default-logging
@@ -147,12 +155,16 @@ services:
       DCR_BATCH_SIZE: 1000
       DCR_DELTA_FILE_FOLDER: '/consumer-files'
       SLEEP_BETWEEN_BATCHES: 1
-      INGEST_GRAPH: http://mu.semte.ch/graphs/datawarehouse
+      DCR_ENABLE_TRIPLE_REMAPPING: "true"
+      DCR_LANDING_ZONE_GRAPH: "http://mu.semte.ch/graphs/landing-zone/mandatendatabank"
+      DCR_REMAPPING_GRAPH: "http://mu.semte.ch/graphs/datawarehouse"
+      DCR_DIRECT_REMAPPING_DATABASE: "triplestore"
       SUDO_QUERY_RETRY_FOR_HTTP_STATUS_CODES: "404,500,503"
       SUDO_QUERY_RETRY: "true"
       DIRECT_DATABASE_ENDPOINT: "http://triplestore:8890/sparql"
     volumes:
-        - ./data/files/consumer-files/mandaten:/consumer-files/
+      - ./config/delta-consumers/loket-mapping:/config/mapping
+      - ./data/files/consumer-files/mandaten:/consumer-files/
     restart: always
     labels:
       - "logging=true"
