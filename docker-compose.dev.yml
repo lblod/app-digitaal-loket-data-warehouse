@@ -23,3 +23,5 @@ services:
     restart: "no"
   op-public-consumer:
     restart: "no"
+  data-monitoring:
+    restart: "no"
