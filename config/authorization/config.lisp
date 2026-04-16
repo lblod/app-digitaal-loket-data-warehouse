@@ -108,6 +108,7 @@
   ("cogs:Job" -> _)
   ("task:Task" -> _)
   ("cogs:ScheduledJob" -> _)
+  ("task:ScheduledTask" -> _)
   ("task:CronSchedule" -> _)
   ("oslc:Error" -> _))
 

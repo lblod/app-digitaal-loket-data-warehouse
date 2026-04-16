@@ -1,7 +1,9 @@
 PREFIX cogs: <http://vocab.deri.ie/cogs#>
 PREFIX task: <http://redpencil.data.gift/vocabularies/tasks/>
 PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
+PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX schema: <http://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 INSERT DATA {
   GRAPH <http://mu.semte.ch/graphs/system/jobs> {
@@ -13,6 +15,16 @@ INSERT DATA {
 
     <http://data.lblod.info/id/schedule/data-monitoring>
       a task:CronSchedule ;
+      mu:uuid "data-monitoring-schedule" ;
       schema:repeatFrequency "17 4 * * *" .
+
+    <http://data.lblod.info/id/scheduled-task/data-monitoring>
+      a task:ScheduledTask ;
+      mu:uuid "data-monitoring-scheduled-task" ;
+      dct:isPartOf <http://data.lblod.info/id/scheduled-job/data-monitoring> ;
+      dct:created "2026-04-13T00:00:00.000Z"^^xsd:dateTime ;
+      dct:modified "2026-04-13T00:00:00.000Z"^^xsd:dateTime ;
+      task:index "0" ;
+      task:operation <http://redpencil.data.gift/id/jobs/concept/TaskOperation/dataMonitoring/runQueries> .
   }
 }
