@@ -268,9 +268,9 @@ services:
     restart: always
     logging: *default-logging
   scheduled-job-controller:
-    image: lblod/scheduled-job-controller-service:1.2.1
+    image: lblod/scheduled-job-controller-service:1.2.2
     environment:
-      LOG_SPARQL_ALL: "false"
+      LOG_SPARQL_ALL: "true"
     labels:
       - "logging=true"
     restart: always
