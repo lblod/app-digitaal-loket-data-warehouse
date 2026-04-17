@@ -1,0 +1,37 @@
+# https://binnenland.atlassian.net/browse/ABI-1381
+# Note: person details (voornaam, naam, nationaliteit, identifier) are in ABI-1399-Persoon.sparql
+PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
+PREFIX vocEre:  <http://data.lblod.info/vocabularies/erediensten/>
+PREFIX vocOrg:  <http://lblod.data.gift/vocabularies/organisatie/>
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX contact: <http://data.lblod.info/vocabularies/contacthub/>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT
+  ?OrgEenheidUri
+  ?positie
+  ?functie
+  ?functieLabel
+  ?bedienaar
+  ?start
+  ?einde
+  ?persoon
+WHERE {
+  ?OrgEenheidUri a besluit:Bestuurseenheid ;
+    vocEre:wordtBediendDoor ?positie .
+
+  ?positie a vocEre:PositieBedienaar ;
+    vocEre:functie ?functie .
+
+  ?bedienaar a vocEre:RolBedienaar ;
+    org:heldBy ?persoon ;
+    contact:startdatum ?start ;
+    org:holds ?positie .
+
+  OPTIONAL {
+    ?functie a vocOrg:EredienstBeroepen ;
+      skos:prefLabel ?functieLabel .
+  }
+
+  OPTIONAL { ?bedienaar contact:eindedatum ?einde . }
+}

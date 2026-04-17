@@ -1,0 +1,10 @@
+# https://binnenland.atlassian.net/browse/ABI-1389
+PREFIX er:   <http://data.lblod.info/vocabularies/erediensten/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT ?functie ?functieLabel
+WHERE {
+  ?bestuur   er:wordtBediendDoor ?bedienaar .
+  ?bedienaar er:functie ?functie .
+  ?functie   skos:prefLabel ?functieLabel .
+}

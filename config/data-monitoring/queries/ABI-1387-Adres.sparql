@@ -1,0 +1,32 @@
+# https://binnenland.atlassian.net/browse/ABI-1387
+# Note:
+#  - made sure at least on triple pattern is outside the optional block.
+#  - Will return results is e.g. postcode is missing, but a province is available. (before it was all or nothing)
+PREFIX org:          <http://www.w3.org/ns/org#>
+PREFIX locn:         <http://www.w3.org/ns/locn#>
+PREFIX organisatie:  <https://data.vlaanderen.be/ns/organisatie#>
+PREFIX adms:         <http://www.w3.org/ns/adms#>
+PREFIX generiek:     <https://data.vlaanderen.be/ns/generiek#>
+PREFIX adres:        <https://data.vlaanderen.be/ns/adres#>
+PREFIX ch:           <http://data.lblod.info/vocabularies/contacthub/>
+
+SELECT DISTINCT
+  ?OrgEenheidUri
+  ?province
+  ?gemeente
+  ?postcode
+WHERE {
+  ?OrgEenheidUri org:hasPrimarySite ?site .
+  OPTIONAL {
+    ?site organisatie:bestaatUit ?address .
+    OPTIONAL {
+       ?address locn:adminUnitL2 ?province .
+    }
+    OPTIONAL {
+      ?address locn:postCode ?postcode .
+    }
+    OPTIONAL {
+      ?address adres:gemeentenaam ?gemeente .
+    }
+  }
+}

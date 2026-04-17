@@ -1,0 +1,9 @@
+# https://binnenland.atlassian.net/browse/ABI-1385
+PREFIX er:   <http://data.lblod.info/vocabularies/erediensten/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT ?typeEredienst ?label
+WHERE {
+  ?eenheid er:typeEredienst ?typeEredienst .
+  ?typeEredienst skos:prefLabel ?label .
+}

@@ -1,0 +1,12 @@
+# https://binnenland.atlassian.net/browse/ABI-1386
+PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ext:     <http://mu.semte.ch/vocabularies/ext/>
+
+SELECT DISTINCT ?werkingsgebied ?label ?werkingsgebiedNiveau
+WHERE {
+  ?s besluit:werkingsgebied ?werkingsgebied .
+
+  OPTIONAL { ?werkingsgebied rdfs:label ?label . }
+  OPTIONAL { ?werkingsgebied ext:werkingsgebiedNiveau ?werkingsgebiedNiveau . }
+}

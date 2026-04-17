@@ -25,6 +25,13 @@
 (in-package :acl)
 
 (define-prefixes
+  :mon "http://lblod.data.gift/vocabularies/monitoring/"
+  :nmo "http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#"
+  :nfo "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#"
+  :nie "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#"
+  :cogs "http://vocab.deri.ie/cogs#"
+  :task "http://redpencil.data.gift/vocabularies/tasks/"
+  :oslc "http://open-services.net/ns/core#"
   :ext "http://mu.semte.ch/vocabularies/ext/"
   :besluit "http://data.vlaanderen.be/ns/besluit#"
   :employee "http://lblod.data.gift/vocabularies/employee/"
@@ -87,6 +94,24 @@
    ("prov:Location" -> _)
    ("ext:GeslachtCode" -> _))
 
+(define-graph monitoring-graph ("http://mu.semte.ch/graphs/system/monitoring")
+  ("mon:MonitoringRun" -> _)
+  ("mon:Observation" -> _)
+  ("mon:Anomaly" -> _))
+
+(define-graph email-graph ("http://mu.semte.ch/graphs/system/email")
+  ("nmo:Email" -> _)
+  ("nmo:Mailbox" -> _)
+  ("nfo:Folder" -> _))
+
+(define-graph jobs-graph ("http://mu.semte.ch/graphs/system/jobs")
+  ("cogs:Job" -> _)
+  ("task:Task" -> _)
+  ("cogs:ScheduledJob" -> _)
+  ("task:ScheduledTask" -> _)
+  ("task:CronSchedule" -> _)
+  ("oslc:Error" -> _))
+
 (supply-allowed-group "dwh-m2m"
   :query "PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
           PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -126,4 +151,18 @@
 (with-scope "service:m2m-login"
   (grant (read write)
          :to session-graph
+         :for "public"))
+
+(with-scope "service:data-monitoring"
+  (grant (read)
+         :to dwh-reporting
+         :for "public")
+  (grant (read write)
+         :to monitoring-graph
+         :for "public")
+  (grant (read write)
+         :to jobs-graph
+         :for "public")
+  (grant (read write)
+         :to email-graph
          :for "public"))

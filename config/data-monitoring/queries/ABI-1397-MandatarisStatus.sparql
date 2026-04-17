@@ -1,0 +1,14 @@
+# https://binnenland.atlassian.net/browse/ABI-1397
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT
+  ?statusURI
+  ?statusLabel
+WHERE {
+  ?statusURI skos:prefLabel ?statusLabel .
+
+  FILTER(STRSTARTS(
+    STR(?statusURI),
+    "http://data.vlaanderen.be/id/concept/MandatarisStatusCode/"
+  ))
+}

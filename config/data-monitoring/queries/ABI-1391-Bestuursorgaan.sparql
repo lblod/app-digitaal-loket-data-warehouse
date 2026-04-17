@@ -1,0 +1,24 @@
+# https://binnenland.atlassian.net/browse/ABI-1391
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX mandaat: <http://data.vlaanderen.be/ns/mandaat#>
+PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
+PREFIX gen:     <https://data.vlaanderen.be/ns/generiek#>
+
+SELECT DISTINCT
+  ?bestuursorgaan
+  ?isTijdspecialisatieVan
+  ?bindingStart
+  ?bindingEinde
+  ?mandaat
+WHERE {
+  ?bestuursorgaan a besluit:Bestuursorgaan .
+
+  { ?bestuursorgaan gen:isTijdspecialisatieVan ?isTijdspecialisatieVan . }
+  UNION
+  { ?bestuursorgaan mandaat:isTijdspecialisatieVan ?isTijdspecialisatieVan . }
+
+  OPTIONAL { ?bestuursorgaan mandaat:bindingStart ?bindingStart . }
+  OPTIONAL { ?bestuursorgaan mandaat:bindingEinde ?bindingEinde . }
+
+  ?bestuursorgaan org:hasPost ?mandaat .
+}

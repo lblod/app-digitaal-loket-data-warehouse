@@ -1,0 +1,22 @@
+# https://binnenland.atlassian.net/browse/ABI-1380
+PREFIX vocEre: <http://data.lblod.info/vocabularies/erediensten/>
+PREFIX org:    <http://www.w3.org/ns/org#>
+
+SELECT DISTINCT
+  ?betrokkenLokaleBesturenURI
+  ?OrgEenheidUri
+  ?betrokkenOrgEenheidURI
+  ?typeBetrokkenheidURI
+  ?financieringspercentage
+WHERE {
+  ?betrokkenLokaleBesturenURI
+    a vocEre:BetrokkenLokaleBesturen ;
+    org:organization ?OrgEenheidUri ;
+    vocEre:typebetrokkenheid ?typeBetrokkenheidURI .
+
+  OPTIONAL {
+    ?betrokkenLokaleBesturenURI vocEre:financieringspercentage ?financieringspercentage .
+  }
+
+  ?betrokkenOrgEenheidURI vocEre:betrokkenBestuur ?betrokkenLokaleBesturenURI .
+}

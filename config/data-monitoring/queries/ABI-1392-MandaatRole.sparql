@@ -1,0 +1,12 @@
+# https://binnenland.atlassian.net/browse/ABI-1392
+PREFIX org:  <http://www.w3.org/ns/org#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT
+  ?role
+  ?label
+WHERE {
+  ?something org:role ?role .
+
+  OPTIONAL { ?role skos:prefLabel ?label . }
+}

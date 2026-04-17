@@ -1,0 +1,60 @@
+# https://binnenland.atlassian.net/browse/ABI-1381
+# Full version with person details (see ABI-1399-Persoon.sparql for a standalone person query)
+# Note: ?structuredIdentifier should be added to the select clause?
+PREFIX besluit:  <http://data.vlaanderen.be/ns/besluit#>
+PREFIX vocEre:   <http://data.lblod.info/vocabularies/erediensten/>
+PREFIX vocOrg:   <http://lblod.data.gift/vocabularies/organisatie/>
+PREFIX org:      <http://www.w3.org/ns/org#>
+PREFIX contact:  <http://data.lblod.info/vocabularies/contacthub/>
+PREFIX skos:     <http://www.w3.org/2004/02/skos/core#>
+PREFIX person:   <http://www.w3.org/ns/person#>
+PREFIX persoon:  <http://data.vlaanderen.be/ns/persoon#>
+PREFIX foaf:     <http://xmlns.com/foaf/0.1/>
+PREFIX adms:     <http://www.w3.org/ns/adms#>
+PREFIX generiek: <https://data.vlaanderen.be/ns/generiek#>
+
+SELECT DISTINCT
+  ?OrgEenheidUri
+  ?positie
+  ?functie
+  ?functieLabel
+  ?bedienaar
+  ?start
+  ?einde
+  ?persoon
+  ?voornaam
+  ?naam
+  ?nationaliteit
+  ?identifier
+WHERE {
+  ?OrgEenheidUri a besluit:Bestuurseenheid ;
+    vocEre:wordtBediendDoor ?positie .
+
+  ?positie a vocEre:PositieBedienaar ;
+    vocEre:functie ?functie .
+
+  ?bedienaar a vocEre:RolBedienaar ;
+    org:heldBy ?persoon ;
+    contact:startdatum ?start ;
+    org:holds ?positie .
+
+  OPTIONAL {
+    ?functie a vocOrg:EredienstBeroepen ;
+      skos:prefLabel ?functieLabel .
+  }
+
+  OPTIONAL { ?bedienaar contact:eindedatum ?einde . }
+
+  OPTIONAL {
+    ?persoon a person:Person ;
+      persoon:gebruikteVoornaam ?voornaam ;
+      foaf:familyName ?naam ;
+      adms:identifier ?identifier .
+    ?identifier a adms:Identifier ;
+      generiek:gestructureerdeIdentificator ?structuredIdentifier .
+  }
+
+  OPTIONAL {
+    ?persoon persoon:heeftNationaliteit ?nationaliteit .
+  }
+}
