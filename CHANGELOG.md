@@ -80,6 +80,17 @@ ABI-1399-Persoon completeness_nationaliteit: ~8,600 (was 0)
 ABI-1399-Persoon completeness_geboortedatum/geslacht: ~30k (was ~21k)
 ```
 
+## 1.11.0 (2026-05-05)
+- Added pro-active data monitoring (PRs #11, #13): new services `data-monitoring`, `scheduled-job-controller`, `deliver-email`, plus mailbox/scheduled-job migrations, new authorization graphs and scope, new delta rules, and `database` bumped to `sparql-parser:0.0.15`.
+
+### deploy instructions
+Set `EMAIL_FROM` / `EMAIL_TO` on `data-monitoring` in `docker-compose.override.yml`.
+```
+drc restart migrations
+drc up -d database
+drc restart delta-notifier
+drc up -d data-monitoring scheduled-job-controller deliver-email
+```
 
 ## 1.10.1 (2025-07-18)
 - Added empty configuration for delta-notifier
