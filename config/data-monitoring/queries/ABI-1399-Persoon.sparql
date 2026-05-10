@@ -1,5 +1,9 @@
 # https://binnenland.atlassian.net/browse/ABI-1399
-# Note: fixed nationality and birth
+# OP-canonical first name lives at foaf:givenName
+# (persoon:gebruikteVoornaam in OP = "first-name-used" / alternative voornaam).
+# Geslacht binds to the URI directly; the prefLabel join is wrapped in
+# a nested OPTIONAL so the URI still counts when the code-list isn't
+# in the warehouse.
 PREFIX person:   <http://www.w3.org/ns/person#>
 PREFIX foaf:     <http://xmlns.com/foaf/0.1/>
 PREFIX dct:      <http://purl.org/dc/terms/>
@@ -19,7 +23,7 @@ SELECT DISTINCT
 WHERE {
   ?persoon a person:Person .
 
-  OPTIONAL { ?persoon persoon:gebruikteVoornaam ?voornaam . }
+  OPTIONAL { ?persoon foaf:givenName ?voornaam . }
   OPTIONAL { ?persoon foaf:familyName ?achternaam . }
 
   OPTIONAL {
@@ -28,8 +32,8 @@ WHERE {
   }
 
   OPTIONAL {
-    ?persoon persoon:geslacht ?geslachtUri .
-    ?geslachtUri skos:prefLabel ?geslacht .
+    ?persoon persoon:geslacht ?geslacht .
+    OPTIONAL { ?geslacht skos:prefLabel ?geslachtLabel . }
   }
 
   OPTIONAL {
