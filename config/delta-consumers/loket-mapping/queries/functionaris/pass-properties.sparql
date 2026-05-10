@@ -1,0 +1,22 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mu:      <http://mu.semte.ch/vocabularies/core/>
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX mandaat: <http://data.vlaanderen.be/ns/mandaat#>
+PREFIX lblodlg: <http://data.lblod.info/vocabularies/leidinggevenden/>
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a lblodlg:Functionaris ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    mu:uuid,
+    org:holds,
+    mandaat:isBestuurlijkeAliasVan,
+    mandaat:start,
+    mandaat:einde,
+    mandaat:status
+  ))
+}

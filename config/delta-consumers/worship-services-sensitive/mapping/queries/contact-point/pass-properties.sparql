@@ -1,0 +1,24 @@
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mu:     <http://mu.semte.ch/vocabularies/core/>
+PREFIX schema: <http://schema.org/>
+PREFIX locn:   <http://www.w3.org/ns/locn#>
+
+# WSS source also emits schema:contactType and ext:secondaryContactPoint;
+# OP doesn't model those on ContactPoint, so they are intentionally dropped.
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a schema:ContactPoint ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    mu:uuid,
+    locn:address,
+    schema:email,
+    schema:telephone
+  ))
+
+  FILTER NOT EXISTS { ?s ?p "" . }
+}

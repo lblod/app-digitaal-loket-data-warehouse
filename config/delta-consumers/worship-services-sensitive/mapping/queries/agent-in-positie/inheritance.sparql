@@ -1,0 +1,21 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mandaat: <http://data.vlaanderen.be/ns/mandaat#>
+PREFIX ere:     <http://data.lblod.info/vocabularies/erediensten/>
+PREFIX lblodlg: <http://data.lblod.info/vocabularies/leidinggevenden/>
+PREFIX ch:      <http://data.lblod.info/vocabularies/contacthub/>
+
+# Ensure every Functionaris / Mandataris / EredienstMandataris / RolBedienaar
+# carries the abstract ch:AgentInPositie type, even if the source forgot it.
+
+CONSTRUCT {
+  ?s a ch:AgentInPositie .
+} WHERE {
+  ?s a ?type .
+
+  VALUES ?type {
+    lblodlg:Functionaris
+    mandaat:Mandataris
+    ere:EredienstMandataris
+    ere:RolBedienaar
+  }
+}

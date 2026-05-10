@@ -1,0 +1,15 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema:  <http://schema.org/>
+PREFIX lblodlg: <http://data.lblod.info/vocabularies/leidinggevenden/>
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a lblodlg:Bestuursfunctie ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    schema:contactPoint
+  ))
+}

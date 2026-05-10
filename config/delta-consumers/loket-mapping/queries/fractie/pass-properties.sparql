@@ -1,0 +1,22 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mu:      <http://mu.semte.ch/vocabularies/core/>
+PREFIX dct:     <http://purl.org/dc/terms/>
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX regorg:  <https://www.w3.org/ns/regorg#>
+PREFIX mandaat: <http://data.vlaanderen.be/ns/mandaat#>
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a mandaat:Fractie ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    mu:uuid,
+    dct:modified,
+    org:memberOf,
+    org:linkedTo,
+    regorg:legalName
+  ))
+}

@@ -1,0 +1,15 @@
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX org:    <http://www.w3.org/ns/org#>
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a org:Post ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    schema:contactPoint
+  ))
+}

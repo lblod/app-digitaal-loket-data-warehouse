@@ -1,0 +1,10 @@
+PREFIX persoon:       <https://data.vlaanderen.be/ns/persoon#>
+PREFIX persoon_loket: <http://data.vlaanderen.be/ns/persoon#>
+PREFIX person:        <http://www.w3.org/ns/person#>
+
+CONSTRUCT {
+  ?s persoon:registratie ?o .
+} WHERE {
+  ?s a person:Person ;
+     persoon_loket:registratie ?o .
+}

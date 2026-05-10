@@ -1,0 +1,14 @@
+PREFIX adms:    <http://www.w3.org/ns/adms#>
+PREFIX persoon: <https://data.vlaanderen.be/ns/persoon#>
+PREFIX person:  <http://www.w3.org/ns/person#>
+
+# WSS only exposes RRN identifiers; expose the same link as
+# persoon:registratie on the Person, in addition to the adms:identifier
+# triple already passed through.
+
+CONSTRUCT {
+  ?person persoon:registratie ?rrn .
+} WHERE {
+  ?person a person:Person ;
+          adms:identifier ?rrn .
+}

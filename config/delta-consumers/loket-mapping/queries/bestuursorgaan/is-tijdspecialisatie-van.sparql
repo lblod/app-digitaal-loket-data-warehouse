@@ -1,0 +1,14 @@
+PREFIX mandaat:  <http://data.vlaanderen.be/ns/mandaat#>
+PREFIX generiek: <https://data.vlaanderen.be/ns/generiek#>
+
+# Loket: mandaat:isTijdspecialisatieVan
+# OP:    generiek:isTijdspecialisatieVan
+#
+# Lives on Bestuursorgaan (a Bestuursorgaan period is a time-specialisation
+# of an abstract Bestuursorgaan).
+
+CONSTRUCT {
+  ?s generiek:isTijdspecialisatieVan ?o .
+} WHERE {
+  ?s mandaat:isTijdspecialisatieVan ?o .
+}

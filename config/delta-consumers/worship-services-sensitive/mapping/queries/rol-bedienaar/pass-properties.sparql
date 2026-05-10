@@ -1,0 +1,32 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mu:      <http://mu.semte.ch/vocabularies/core/>
+PREFIX schema:  <http://schema.org/>
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX mandaat: <http://data.vlaanderen.be/ns/mandaat#>
+PREFIX ch:      <http://data.lblod.info/vocabularies/contacthub/>
+PREFIX ere:     <http://data.lblod.info/vocabularies/erediensten/>
+
+# RolBedienaar is a Loket-only concept (no OP equivalent), so its native
+# date predicates ch:startdatum / ch:eindedatum are kept rather than
+# forced onto mandaat:start / mandaat:einde — the source doesn't emit
+# those for this type.
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a ere:RolBedienaar ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    mu:uuid,
+    schema:contactPoint,
+    org:holds,
+    org:heldBy,
+    mandaat:isBestuurlijkeAliasVan,
+    ch:startdatum,
+    ch:eindedatum
+  ))
+
+  FILTER NOT EXISTS { ?s ?p "" . }
+}
