@@ -4,7 +4,8 @@ PREFIX mandaat: <http://data.vlaanderen.be/ns/mandaat#>
 PREFIX org:     <http://www.w3.org/ns/org#>
 PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
 PREFIX person:  <http://www.w3.org/ns/person#>
-PREFIX persoon: <http://data.vlaanderen.be/ns/persoon#>
+PREFIX persoon: <https://data.vlaanderen.be/ns/persoon#>
+PREFIX generiek: <https://data.vlaanderen.be/ns/generiek#>
 PREFIX ere:     <http://data.lblod.info/vocabularies/erediensten/>
 PREFIX owl:     <http://www.w3.org/2002/07/owl#>
 
@@ -22,7 +23,7 @@ SELECT DISTINCT
 WHERE {
   ?bestuurInTijd a besluit:Bestuursorgaan ;
     org:hasPost ?mandaat ;
-    mandaat:isTijdspecialisatieVan ?bestuur .
+    generiek:isTijdspecialisatieVan ?bestuur .
 
   ?bestuur besluit:bestuurt ?OrgEenheidUri .
 

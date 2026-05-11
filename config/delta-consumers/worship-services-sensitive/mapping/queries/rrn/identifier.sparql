@@ -1,0 +1,26 @@
+PREFIX adms:     <http://www.w3.org/ns/adms#>
+PREFIX generiek: <https://data.vlaanderen.be/ns/generiek#>
+PREFIX skos:     <http://www.w3.org/2004/02/skos/core#>
+PREFIX mu:       <http://mu.semte.ch/vocabularies/core/>
+
+# WSS only exposes RRN identifiers, so every adms:Identifier in this landing
+# zone is a Rijksregisternummer. Wrap the flat notation in OP's structured
+# identifier shape and replace skos:notation with the human-readable label.
+
+CONSTRUCT {
+  ?identifier
+    generiek:gestructureerdeIdentificator ?structuredIdentifier ;
+    skos:notation "Rijksregisternummer" .
+
+  ?structuredIdentifier
+    a generiek:GestructureerdeIdentificator ;
+    mu:uuid ?uuid ;
+    generiek:lokaleIdentificator ?notation .
+}
+WHERE {
+  ?identifier a adms:Identifier ;
+              skos:notation ?notation .
+
+  BIND(MD5(CONCAT(STR(?identifier), "STRUCTURED_IDENTIFIER")) AS ?uuid)
+  BIND(IRI(CONCAT("http://data.lblod.info/id/gestructureerdeIdentificatoren/", ?uuid)) AS ?structuredIdentifier)
+}

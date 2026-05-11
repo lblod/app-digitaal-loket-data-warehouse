@@ -1,0 +1,24 @@
+PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mu:    <http://mu.semte.ch/vocabularies/core/>
+PREFIX locn:  <http://www.w3.org/ns/locn#>
+PREFIX adres: <https://data.vlaanderen.be/ns/adres#>
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a locn:Address ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    mu:uuid,
+    locn:fullAddress,
+    locn:postCode,
+    locn:thoroughfare,
+    adres:gemeentenaam,
+    adres:Adresvoorstelling.huisnummer,
+    adres:Adresvoorstelling.busnummer
+  ))
+
+  FILTER NOT EXISTS { ?s ?p "" . }
+}

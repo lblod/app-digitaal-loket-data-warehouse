@@ -1,0 +1,16 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mu:   <http://mu.semte.ch/vocabularies/core/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a skos:Concept ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    mu:uuid,
+    skos:prefLabel
+  ))
+}

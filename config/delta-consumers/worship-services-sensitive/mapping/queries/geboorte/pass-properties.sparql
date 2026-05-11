@@ -1,0 +1,16 @@
+PREFIX mu:            <http://mu.semte.ch/vocabularies/core/>
+PREFIX persoon_loket: <http://data.vlaanderen.be/ns/persoon#>
+
+# Type and persoon:datum are renamed http→https in dedicated files.
+# rdf:type is intentionally NOT whitelisted here — that would let the Loket
+# (http) type assertion pass through unchanged.
+# owl:sameAs links from the source are dropped (not OP-canonical).
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a persoon_loket:Geboorte ;
+     ?p ?o .
+
+  FILTER (?p IN (mu:uuid))
+}

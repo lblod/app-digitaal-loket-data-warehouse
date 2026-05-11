@@ -1,0 +1,21 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mu:   <http://mu.semte.ch/vocabularies/core/>
+PREFIX adms: <http://www.w3.org/ns/adms#>
+
+# In WSS the only identifier flowing through is the RRN.
+# skos:notation is intentionally NOT whitelisted: the rrn/ rules transform
+# the flat notation into a structured identifier and replace skos:notation
+# with the literal label "Rijksregisternummer".
+# owl:sameAs links from the source are dropped (not OP-canonical).
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a adms:Identifier ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    mu:uuid
+  ))
+}

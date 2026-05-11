@@ -1,0 +1,28 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mu:      <http://mu.semte.ch/vocabularies/core/>
+PREFIX schema:  <http://schema.org/>
+PREFIX org:     <http://www.w3.org/ns/org#>
+PREFIX mandaat: <http://data.vlaanderen.be/ns/mandaat#>
+PREFIX ere:     <http://data.lblod.info/vocabularies/erediensten/>
+
+# ere:geplandeEinddatumAanstelling is a Loket-only predicate (worship
+# services); OP doesn't model it, so it's preserved rather than dropped.
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a mandaat:Mandataris ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    mu:uuid,
+    schema:contactPoint,
+    org:holds,
+    mandaat:isBestuurlijkeAliasVan,
+    mandaat:start,
+    mandaat:einde,
+    mandaat:status,
+    ere:geplandeEinddatumAanstelling
+  ))
+}

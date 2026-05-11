@@ -14,7 +14,7 @@ SELECT DISTINCT
   ?changeEventDate
 WHERE {
   # ?eenheid skos:prefLabel ?eenheidLabel ;
-  #   besluit:classificatie ?eenheidClassificatie .
+  #   org:classification ?eenheidClassificatie .
 
   ?changeEvent org:resultingOrganization ?OrgEenheidUri ;
     dct:date ?changeEventDate ;

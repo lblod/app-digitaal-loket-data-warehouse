@@ -1,4 +1,52 @@
 # Changelog
+## 2.0.0 (2026-05-11)
+- Added data-monitoring-service [DL-7284]
+- Use OP Model [DL-7276]
+
+### deploy instructions
+Ensure initial syncs are enabled in `docker-compose.override.yml`:
+```
+  leidinggevenden-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+  persons-sensitive-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+  mandatendatabank-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+  op-public-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+```
+
+Baseline monitoring run (kept for later comparison):
+```
+drc exec data-monitoring curl -X POST http://localhost/monitoring-runs
+```
+
+Apply migrations (OP normalization + full flush of all landing zones and the datawarehouse graph) and restart affected services:
+```
+drc restart migrations
+drc restart database
+drc restart op-public-consumer
+```
+
+Alternative: skip the flush migration and wipe `./data/` instead (stop the stack, back up or `rm -rf data/`, start the stack). Simpler, but you lose the baseline monitoring run.
+
+Re-trigger initial sync on the affected consumers:
+```
+for c in leidinggevenden-consumer persons-sensitive-consumer mandatendatabank-consumer op-public-consumer; do
+  drc exec $c curl -X DELETE http://localhost/initial-sync-jobs
+  drc exec $c curl -X POST http://localhost/initial-sync-jobs
+done
+```
+
+Verification monitoring run (compare with baseline):
+```
+drc exec data-monitoring curl -X POST http://localhost/monitoring-runs
+```
+
 ## 1.11.0 (2026-05-05)
 - Added pro-active data monitoring (PRs #11, #13): new services `data-monitoring`, `scheduled-job-controller`, `deliver-email`, plus mailbox/scheduled-job migrations, new authorization graphs and scope, new delta rules, and `database` bumped to `sparql-parser:0.0.15`.
 

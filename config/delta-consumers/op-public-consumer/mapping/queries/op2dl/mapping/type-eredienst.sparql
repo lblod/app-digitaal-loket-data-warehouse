@@ -1,0 +1,5 @@
+CONSTRUCT {
+  ?s a <http://www.w3.org/2004/02/skos/core#Concept>
+} WHERE {
+  ?s a <http://lblod.data.gift/vocabularies/organisatie/TypeEredienst>
+}

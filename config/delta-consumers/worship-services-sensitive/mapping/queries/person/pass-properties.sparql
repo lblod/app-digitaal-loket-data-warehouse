@@ -1,0 +1,25 @@
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX mu:     <http://mu.semte.ch/vocabularies/core/>
+PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+PREFIX adms:   <http://www.w3.org/ns/adms#>
+PREFIX person: <http://www.w3.org/ns/person#>
+
+# owl:sameAs links from the source are dropped (not OP-canonical).
+# adms:identifier is kept; the rrn/ rules additionally produce a
+# persoon:registratie statement linking the same RRN.
+
+CONSTRUCT {
+  ?s ?p ?o .
+} WHERE {
+  ?s a person:Person ;
+     ?p ?o .
+
+  FILTER (?p IN (
+    rdf:type,
+    mu:uuid,
+    foaf:familyName,
+    adms:identifier
+  ))
+
+  FILTER NOT EXISTS { ?s ?p "" . }
+}

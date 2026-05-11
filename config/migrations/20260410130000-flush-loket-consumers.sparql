@@ -1,0 +1,24 @@
+# Flush all consumer landing zones and the datawarehouse graph
+# to allow a clean initial re-sync with the OP model mappings.
+
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/leidinggevenden>
+
+;
+
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/persons-sensitive>
+
+;
+
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/mandatendatabank>
+
+;
+
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/op-public>
+
+;
+
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/worship-services-sensitive>
+
+;
+
+CLEAR GRAPH <http://mu.semte.ch/graphs/datawarehouse>

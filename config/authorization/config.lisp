@@ -40,9 +40,14 @@
   :mandaat "http://data.vlaanderen.be/ns/mandaat#"
   :org "http://www.w3.org/ns/org#"
   :person "http://www.w3.org/ns/person#"
-  :persoon "http://data.vlaanderen.be/ns/persoon#"
+  :persoon "https://data.vlaanderen.be/ns/persoon#"
   :prov "http://www.w3.org/ns/prov#"
   :schema "http://schema.org/"
+  :generiek "https://data.vlaanderen.be/ns/generiek#"
+  :skos "http://www.w3.org/2004/02/skos/core#"
+  :organisatie "http://lblod.data.gift/vocabularies/organisatie/"
+  :ere "http://data.lblod.info/vocabularies/erediensten/"
+  :ch "http://data.lblod.info/vocabularies/contacthub/"
   :service "http://services.semantic.works/"
   ;; internal use
   :foaf "http://xmlns.com/foaf/0.1/"
@@ -92,7 +97,25 @@
    ("ext:BestuursfunctieCode" -> _)
    ("person:Person" -> _)
    ("prov:Location" -> _)
-   ("ext:GeslachtCode" -> _))
+   ("ext:GeslachtCode" -> _)
+   ("generiek:GestructureerdeIdentificator" -> _)
+
+   ;; CONCEPT SCHEMES (from op-public)
+   ("skos:Concept" -> _)
+   ("organisatie:TypeEredienst" -> _)
+   ("organisatie:Veranderingsgebeurtenis" -> _)
+   ("organisatie:OrganisatieStatusCode" -> _)
+
+   ;; EREDIENSTEN (worship services — Loket-specific, not in OP model)
+   ("ere:BestuurVanDeEredienst" -> _)
+   ("ere:CentraalBestuurVanDeEredienst" -> _)
+   ("ere:RepresentatiefOrgaan" -> _)
+   ("ere:PositieBedienaar" -> _)
+   ("ere:RolBedienaar" -> _)
+   ("ere:EredienstMandataris" -> _)
+   ("organisatie:EredienstBeroepen" -> _)
+   ("organisatie:TypeBetrokkenheid" -> _)
+   ("ch:AgentInPositie" -> _))
 
 (define-graph monitoring-graph ("http://mu.semte.ch/graphs/system/monitoring")
   ("mon:MonitoringRun" -> _)

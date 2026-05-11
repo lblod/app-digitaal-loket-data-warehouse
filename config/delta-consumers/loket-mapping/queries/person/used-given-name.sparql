@@ -1,0 +1,17 @@
+PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+PREFIX persoon: <https://data.vlaanderen.be/ns/persoon#>
+PREFIX person:  <http://www.w3.org/ns/person#>
+
+# In Loket: Person.foaf:name = alternatieve-naam (slave-mandaat-domain.lisp)
+# In OP:    Person.persoon:gebruikteVoornaam = first-name-used (alternative)
+#
+# foaf:name on Person → OP's alternative-name predicate.
+# Note: ContactPoint.foaf:name is a different field (contact's name), so
+# the conversion is scoped to Person.
+
+CONSTRUCT {
+  ?s persoon:gebruikteVoornaam ?name .
+} WHERE {
+  ?s a person:Person ;
+     foaf:name ?name .
+}
