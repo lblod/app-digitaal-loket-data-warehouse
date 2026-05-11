@@ -1,167 +1,24 @@
-# Flush data from mandatendatabank, persons-sensitive, and leidinggevenden consumers
-# to allow a clean initial re-sync with triple remapping enabled.
-#
-# Types shared with OP (ContactPoint, Address, Identifier, etc.) are also flushed.
-# An OP re-sync should follow to repopulate those.
+# Flush all consumer landing zones and the datawarehouse graph
+# to allow a clean initial re-sync with the OP model mappings.
 
-# --- mandatendatabank-consumer types ---
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/leidinggevenden>
 
-# Mandataris
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://data.vlaanderen.be/ns/mandaat#Mandataris> ; ?p ?o .
-  }
-};
+;
 
-# Fractie
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://data.vlaanderen.be/ns/mandaat#Fractie> ; ?p ?o .
-  }
-};
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/persons-sensitive>
 
-# BeleidsdomeinCode
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://mu.semte.ch/vocabularies/ext/BeleidsdomeinCode> ; ?p ?o .
-  }
-};
+;
 
-# KandidatenlijstLijsttype
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://mu.semte.ch/vocabularies/ext/KandidatenlijstLijsttype> ; ?p ?o .
-  }
-};
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/mandatendatabank>
 
-# VerkiezingsresultaatGevolgCode
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://mu.semte.ch/vocabularies/ext/VerkiezingsresultaatGevolgCode> ; ?p ?o .
-  }
-};
+;
 
-# Fractietype
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://mu.semte.ch/vocabularies/ext/Fractietype> ; ?p ?o .
-  }
-};
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/op-public>
 
-# Membership
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://www.w3.org/ns/org#Membership> ; ?p ?o .
-  }
-};
+;
 
-# --- persons-sensitive-consumer types ---
+CLEAR GRAPH <http://mu.semte.ch/graphs/landing-zone/worship-services-sensitive>
 
-# Person
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://www.w3.org/ns/person#Person> ; ?p ?o .
-  }
-};
+;
 
-# Geboorte
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <https://data.vlaanderen.be/ns/persoon#Geboorte> ; ?p ?o .
-  }
-};
-
-# GeslachtCode
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://mu.semte.ch/vocabularies/ext/GeslachtCode> ; ?p ?o .
-  }
-};
-
-# --- leidinggevenden-consumer types ---
-
-# Functionaris
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://data.lblod.info/vocabularies/leidinggevenden/Functionaris> ; ?p ?o .
-  }
-};
-
-# --- shared types (also produced by OP — OP re-sync needed after) ---
-
-# Identifier
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <http://www.w3.org/ns/adms#Identifier> ; ?p ?o .
-  }
-};
-
-# GestructureerdeIdentificator
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s ?p ?o }
-}
-WHERE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> {
-    ?s a <https://data.vlaanderen.be/ns/generiek#GestructureerdeIdentificator> ; ?p ?o .
-  }
-};
-
-# --- flush type assertions ---
-
-DELETE {
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s a ?type }
-}
-WHERE {
-  VALUES ?type {
-    <http://data.vlaanderen.be/ns/mandaat#Mandataris>
-    <http://data.vlaanderen.be/ns/mandaat#Fractie>
-    <http://www.w3.org/ns/org#Membership>
-    <http://mu.semte.ch/vocabularies/ext/BeleidsdomeinCode>
-    <http://mu.semte.ch/vocabularies/ext/KandidatenlijstLijsttype>
-    <http://mu.semte.ch/vocabularies/ext/VerkiezingsresultaatGevolgCode>
-    <http://mu.semte.ch/vocabularies/ext/Fractietype>
-    <http://www.w3.org/ns/person#Person>
-    <https://data.vlaanderen.be/ns/persoon#Geboorte>
-    <http://mu.semte.ch/vocabularies/ext/GeslachtCode>
-    <http://data.lblod.info/vocabularies/leidinggevenden/Functionaris>
-    <http://www.w3.org/ns/adms#Identifier>
-    <https://data.vlaanderen.be/ns/generiek#GestructureerdeIdentificator>
-  }
-  GRAPH <http://mu.semte.ch/graphs/datawarehouse> { ?s a ?type }
-}
+CLEAR GRAPH <http://mu.semte.ch/graphs/datawarehouse>

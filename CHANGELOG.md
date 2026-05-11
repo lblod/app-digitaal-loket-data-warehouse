@@ -1,83 +1,50 @@
 # Changelog
-## Unreleased
+## 2.0.0 (2026-05-11)
 - Added data-monitoring-service [DL-7284]
 - Use OP Model [DL-7276]
 
 ### deploy instructions
-#### 1. Baseline monitoring run (before any changes)
+Ensure initial syncs are enabled in `docker-compose.override.yml`:
 ```
-docker compose exec data-monitoring curl -X POST http://localhost/monitoring-runs
+  leidinggevenden-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+  persons-sensitive-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+  mandatendatabank-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
+  op-public-consumer:
+    environment:
+      DCR_DISABLE_INITIAL_SYNC: "false"
 ```
-##### Wait for "Monitoring run completed" in logs
-```
-docker compose logs data-monitoring --tail 5
-```
-#### 2. Deploy the code
-```
-git pull  # or checkout the branch
-```
-#### 3. Run migrations
-Runs the normalization migration (persoon http→https, remove besluit:classificatie, etc.) followed by the Loket consumer data flush.
 
+Baseline monitoring run (kept for later comparison):
 ```
-drc up -d migrations
+drc exec data-monitoring curl -X POST http://localhost/monitoring-runs
 ```
-##### Wait for "All migrations executed" in logs
+
+Apply migrations (OP normalization + full flush of all landing zones and the datawarehouse graph) and restart affected services:
 ```
-docker compose logs migrations --tail 20
-```
-#### 4. Restart auth / sparql-parser
-```
+drc restart migrations
 drc restart database
+drc restart op-public-consumer
 ```
-#### 5. Restart op-public-consumer
-Picks up removed classification/isTijdspecialisatieVan mappings + new skos:Concept CONSTRUCTs.
-```
-drc up -d op-public-consumer
-```
-#### 6. Re-sync Loket consumers
-The 3 consumers now have triple remapping enabled. Delete their completed initial sync jobs and trigger fresh syncs to populate the landing zones.
 
+Alternative: skip the flush migration and wipe `./data/` instead (stop the stack, back up or `rm -rf data/`, start the stack). Simpler, but you lose the baseline monitoring run.
 
-##### leidinggevenden
+Re-trigger initial sync on the affected consumers:
 ```
-docker compose exec leidinggevenden-consumer curl -X DELETE http://localhost/initial-sync-jobs
-docker compose exec leidinggevenden-consumer curl -X POST http://localhost/initial-sync-jobs
+for c in leidinggevenden-consumer persons-sensitive-consumer mandatendatabank-consumer op-public-consumer; do
+  drc exec $c curl -X DELETE http://localhost/initial-sync-jobs
+  drc exec $c curl -X POST http://localhost/initial-sync-jobs
+done
 ```
-##### persons-sensitive
+
+Verification monitoring run (compare with baseline):
 ```
-docker compose exec persons-sensitive-consumer curl -X DELETE http://localhost/initial-sync-jobs
-docker compose exec persons-sensitive-consumer curl -X POST http://localhost/initial-sync-jobs
-```
-##### mandatendatabank
-```
-docker compose exec mandatendatabank-consumer curl -X DELETE http://localhost/initial-sync-jobs
-docker compose exec mandatendatabank-consumer curl -X POST http://localhost/initial-sync-jobs
-```
-#### 7. Re-sync OP consumer
-Identifier/GestructureerdeIdentificator were flushed (shared types). Re-sync to repopulate.
-```
-docker compose exec op-public-consumer curl -X DELETE http://localhost/initial-sync-jobs
-docker compose exec op-public-consumer curl -X POST http://localhost/initial-sync-jobs
-```
-#### 8. Wait for all syncs to complete
-Monitor progress:
-```
-docker compose logs --tail 5 leidinggevenden-consumer persons-sensitive-consumer mandatendatabank-consumer op-public-consumer
-```
-#### 9. Verification monitoring run
-```
-docker compose exec data-monitoring curl -X POST http://localhost/monitoring-runs
-```
-##### Wait for completion
-```
-docker compose logs data-monitoring --tail 5
-```
-Compare counts with the baseline from step 1. Expected changes:
-```
-ABI-1384-Status, ABI-1385-TypeEredienst, ABI-1382-Events, ABI-1396-ChangeEvents: non-zero (were 0)
-ABI-1399-Persoon completeness_nationaliteit: ~8,600 (was 0)
-ABI-1399-Persoon completeness_geboortedatum/geslacht: ~30k (was ~21k)
+drc exec data-monitoring curl -X POST http://localhost/monitoring-runs
 ```
 
 ## 1.11.0 (2026-05-05)
