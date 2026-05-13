@@ -47,7 +47,7 @@ Verification monitoring run (compare with baseline):
 drc exec data-monitoring curl -X POST http://localhost/monitoring-runs
 ```
 
-# 1.11.1 (2026-05-07)
+## 1.11.1 (2026-05-07)
 - Bump virtuoso [DL-7343]
 
 ## 1.11.0 (2026-05-05)
