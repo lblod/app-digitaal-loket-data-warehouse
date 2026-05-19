@@ -1,0 +1,115 @@
+# https://binnenland.atlassian.net/browse/DL-7326
+PREFIX foaf:     <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos:     <http://www.w3.org/2004/02/skos/core#>
+PREFIX org:      <http://www.w3.org/ns/org#>
+PREFIX besluit:  <http://data.vlaanderen.be/ns/besluit#>
+PREFIX mandaat:  <http://data.vlaanderen.be/ns/mandaat#>
+PREFIX persoon:  <https://data.vlaanderen.be/ns/persoon#>
+PREFIX generiek: <https://data.vlaanderen.be/ns/generiek#>
+PREFIX regorg:   <https://www.w3.org/ns/regorg#>
+
+SELECT DISTINCT
+  ?mandataris
+  ?start
+  ?eind
+  ?rangorde
+  ?status
+  ?statusLabel
+  ?beleidsDomein
+  ?beleidsDomeinLabel
+  ?persoon
+  ?voornaam
+  ?achternaam
+  ?roepnaam
+  ?birthDate
+  ?gender
+  ?mandaat
+  ?bestuursfunctie
+  ?bestuursfunctieLabel
+  ?bestuursorgaanintijd
+  ?bestuursPeriodeStart
+  ?bestuursPeriodeEinde
+  ?startJaar
+  ?legislatuur
+  ?bestuursorgaan
+  ?bestuursorgaanLabel
+  ?bestuursorgaanClassificatie
+  ?bestuursorgaanClassificatieLabel
+  ?bestuurseenheid
+  ?bestuurseenheidLabel
+  ?bestuurseenheidClassificatie
+  ?bestuurseenheidClassificatieLabel
+  ?werkingsgebied
+  ?werkingsgebiedlabel
+  ?fractie
+  ?organisatie
+  ?fractienaam
+  ?vervangerURI
+  ?vervangerPersoonURI
+  ?vervangerfractie
+  ?vervangerRangorde
+WHERE {
+  ?mandataris mandaat:isBestuurlijkeAliasVan ?persoon .
+  ?persoon foaf:givenName ?voornaam ;
+    foaf:familyName ?achternaam .
+  OPTIONAL { ?persoon persoon:gebruikteVoornaam ?roepnaam . }
+  OPTIONAL { ?persoon persoon:heeftGeboorte/persoon:datum ?birthDate . }
+  OPTIONAL { ?persoon persoon:geslacht ?gender . }
+
+  ?mandataris org:holds ?mandaat .
+  ?mandaat org:role ?bestuursfunctie .
+  ?bestuursfunctie skos:prefLabel ?bestuursfunctieLabel .
+
+  ?bestuursorgaanintijd a besluit:Bestuursorgaan ;
+    org:hasPost ?mandaat ;
+    generiek:isTijdspecialisatieVan ?bestuursorgaan ;
+    mandaat:bindingStart ?bestuursPeriodeStart .
+  BIND(YEAR(?bestuursPeriodeStart) AS ?startJaar)
+  OPTIONAL { ?bestuursorgaanintijd mandaat:bindingEinde ?bestuursPeriodeEinde . }
+  BIND(CONCAT(
+    STR(?startJaar),
+    ' - ',
+    IF(BOUND(?bestuursPeriodeEinde), STR(YEAR(?bestuursPeriodeEinde)), '')
+  ) AS ?legislatuur)
+
+  ?bestuursorgaan skos:prefLabel ?bestuursorgaanLabel ;
+    org:classification ?bestuursorgaanClassificatie ;
+    besluit:bestuurt ?bestuurseenheid .
+  ?bestuursorgaanClassificatie skos:prefLabel ?bestuursorgaanClassificatieLabel .
+
+  ?bestuurseenheid skos:prefLabel ?bestuurseenheidLabel ;
+    besluit:werkingsgebied ?werkingsgebied ;
+    org:classification ?bestuurseenheidClassificatie .
+  ?bestuurseenheidClassificatie skos:prefLabel ?bestuurseenheidClassificatieLabel .
+  OPTIONAL { ?werkingsgebied rdfs:label ?werkingsgebiedlabel . }
+
+  ?mandataris mandaat:start ?start .
+  OPTIONAL { ?mandataris mandaat:einde ?eind . }
+  OPTIONAL { ?mandataris mandaat:rangorde ?rangorde . }
+
+  OPTIONAL {
+    ?mandataris mandaat:status ?status .
+    ?status skos:prefLabel ?statusLabel .
+  }
+
+  OPTIONAL {
+    ?mandataris mandaat:beleidsdomein ?beleidsDomein .
+    ?beleidsDomein skos:prefLabel ?beleidsDomeinLabel .
+  }
+
+  OPTIONAL {
+    ?mandataris org:hasMembership ?fractie .
+    ?fractie org:organisation ?organisatie .
+    ?organisatie regorg:legalName ?fractienaam .
+  }
+
+  OPTIONAL {
+    ?mandataris mandaat:isTijdelijkVervangenDoor ?vervangerURI .
+    ?vervangerURI org:hasMembership/org:organisation ?vervangerfractie ;
+      mandaat:rangorde ?vervangerRangorde ;
+      mandaat:isBestuurlijkeAliasVan ?vervangerPersoonURI .
+  }
+
+  FILTER (?startJaar >= 2019)
+}
