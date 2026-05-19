@@ -1,13 +1,13 @@
 # https://binnenland.atlassian.net/browse/ABI-1381
 # Full version with person details (see ABI-1399-Persoon.sparql for a standalone person query)
-# Note: ?structuredIdentifier should be added to the select clause?
+# Each person predicate has its own OPTIONAL so missing fields surface as nulls
+# in the completeness checks instead of collapsing the whole block.
 PREFIX besluit:  <http://data.vlaanderen.be/ns/besluit#>
 PREFIX vocEre:   <http://data.lblod.info/vocabularies/erediensten/>
 PREFIX vocOrg:   <http://lblod.data.gift/vocabularies/organisatie/>
 PREFIX org:      <http://www.w3.org/ns/org#>
 PREFIX contact:  <http://data.lblod.info/vocabularies/contacthub/>
 PREFIX skos:     <http://www.w3.org/2004/02/skos/core#>
-PREFIX person:   <http://www.w3.org/ns/person#>
 PREFIX persoon:  <https://data.vlaanderen.be/ns/persoon#>
 PREFIX foaf:     <http://xmlns.com/foaf/0.1/>
 PREFIX adms:     <http://www.w3.org/ns/adms#>
@@ -26,6 +26,7 @@ SELECT DISTINCT
   ?naam
   ?nationaliteit
   ?identifier
+  ?structuredIdentifier
 WHERE {
   ?OrgEenheidUri a besluit:Bestuurseenheid ;
     vocEre:wordtBediendDoor ?positie .
@@ -45,16 +46,14 @@ WHERE {
 
   OPTIONAL { ?bedienaar contact:eindedatum ?einde . }
 
-  OPTIONAL {
-    ?persoon a person:Person ;
-      persoon:gebruikteVoornaam ?voornaam ;
-      foaf:familyName ?naam ;
-      adms:identifier ?identifier .
-    ?identifier a adms:Identifier ;
-      generiek:gestructureerdeIdentificator ?structuredIdentifier .
-  }
+  OPTIONAL { ?persoon foaf:givenName  ?voornaam . }
+  OPTIONAL { ?persoon foaf:familyName ?naam . }
 
   OPTIONAL {
-    ?persoon persoon:heeftNationaliteit ?nationaliteit .
+    ?persoon adms:identifier ?identifier .
+    ?identifier a adms:Identifier ;
+                generiek:gestructureerdeIdentificator ?structuredIdentifier .
   }
+
+  OPTIONAL { ?persoon persoon:heeftNationaliteit ?nationaliteit . }
 }
