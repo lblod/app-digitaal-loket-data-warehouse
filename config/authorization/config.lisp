@@ -49,6 +49,7 @@
   :ere "http://data.lblod.info/vocabularies/erediensten/"
   :ch "http://data.lblod.info/vocabularies/contacthub/"
   :service "http://services.semantic.works/"
+  :pm "http://open-services.net/ns/perfmon#"
   ;; internal use
   :foaf "http://xmlns.com/foaf/0.1/"
   :mu "http://mu.semte.ch/vocabularies/core/"
@@ -135,6 +136,9 @@
   ("task:CronSchedule" -> _)
   ("oslc:Error" -> _))
 
+(define-graph public-graph ("http://mu.semte.ch/graphs/public")
+  ("pm:Metric" -> _))
+
 (supply-allowed-group "dwh-m2m"
   :query "PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
           PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -170,6 +174,10 @@
        :for "dwh-m2m")
 
 (supply-allowed-group "public")
+
+(grant (read)
+       :to public-graph
+       :for "public")
 
 (with-scope "service:m2m-login"
   (grant (read write)
