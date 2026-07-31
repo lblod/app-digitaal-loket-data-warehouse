@@ -31,7 +31,7 @@ defmodule Dispatcher do
   # Returns the seeded pm:Metric instance via mu-cl-resources, proving the
   # database is reachable and holds the expected public-graph data.
   get "/health/metrics", @json do
-    forward conn, [], "http://resource/metrics/"
+    forward conn, [], "http://health-check-resource/metrics/"
   end
 
   # Temporary Redirect to "/sparql" endpoint

@@ -32,12 +32,13 @@ services:
       - "logging=true"
     restart: always
     logging: *default-logging
-  resource:
+  # Dedicated mu-cl-resources instance for health checks (exposes /health/metrics).
+  health-check-resource:
     image: semtech/mu-cl-resources:1.27.2
     links:
       - database:database
     volumes:
-      - ./config/resources:/config
+      - ./config/health-checks:/config
     labels:
       - "logging=true"
     restart: always
