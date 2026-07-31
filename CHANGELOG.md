@@ -1,4 +1,19 @@
 # Changelog
+## 2.1.0 (2026-07-31)
+ - added explicit healtchecks [DL-7386]
+   - Added a `pm:Metric` instance to the public graph (migration) and exposed it
+     as a `metrics` JSON:API resource through a new `resource` (mu-cl-resources)
+     service, authorized for public read in the sparql-parser config.
+   - `GET /health/metrics` returns the seeded metric, proving the database is
+     reachable and holds the expected public-graph data.
+
+### deploy instructions
+```
+drc up -d health-check-resource
+drc restart migrations && drc logs -ft --tail=200 migrations
+drc restart dispatcher database data-monitoring
+```
+
 ## 2.0.0 (2026-05-11)
 - Added data-monitoring-service [DL-7284]
 - Use OP Model [DL-7276]
