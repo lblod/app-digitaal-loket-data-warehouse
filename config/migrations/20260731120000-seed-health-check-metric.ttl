@@ -1,0 +1,3 @@
+<http://data.lblod.info/id/health-checks/metric/aa3fea1f-da2c-4e73-9b18-93e217a5a038> a <http://open-services.net/ns/perfmon#Metric>;
+   <http://mu.semte.ch/vocabularies/core/uuid> "aa3fea1f-da2c-4e73-9b18-93e217a5a038";
+   <http://www.w3.org/2004/02/skos/core#note> "This should be returned on a health-check call.".

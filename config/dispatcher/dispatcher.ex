@@ -24,6 +24,16 @@ defmodule Dispatcher do
     Proxy.forward conn, path, "http://m2m-login/"
   end
 
+  #################################################################
+  # Health checks
+  #################################################################
+
+  # Returns the seeded pm:Metric instance via mu-cl-resources, proving the
+  # database is reachable and holds the expected public-graph data.
+  get "/health/metrics", @json do
+    forward conn, [], "http://health-check-resource/metrics/"
+  end
+
   # Temporary Redirect to "/sparql" endpoint
   match "/*_", @html do
     send_resp( conn, 307, "<!DOCTYPE html><html><head><meta http-equiv=\"refresh\" content=\"0; url='/sparql'\" /></head><body><p>Please follow <a href=\"/sparql\">this link</a>.</p></body></html>" )
